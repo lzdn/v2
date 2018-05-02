@@ -1,0 +1,27 @@
+<#import "/app/master.html" as master />
+<#macro frame csss=[] scripts=[]>
+<@master.master csss=csss scripts=scripts>
+ <#nested>
+</@master.master>
+</#macro>
+<#macro script >
+	<!--jquery-->
+	<script src="${basePath}/static/js/jquery.min.js"></script>
+	<!--bootstrap-->
+	<script src="${basePath}/static/js/bootstrap.min.js"></script>
+	<!-- Bootstrap table -->
+	<script src="${basePath}/static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+	<script src="${basePath}/static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+	<script src="${basePath}/static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+	<!-- Peity -->
+	<script src="${basePath}/static/js/plugins/peity/jquery.peity.min.js"></script>
+	<!-- layer -->
+	<script src="${basePath}/static/js/plugins/layer/layer.min.js"></script>
+	<!-- 自定义js -->
+	<script src="${basePath}/static/js/content.js"></script>
+	<!--jquery validate-->
+	<script src="${basePath}/static/js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="${basePath}/static/js/plugins/validate/messages_zh.min.js"></script>
+	<#nested>
+</#macro>
+	

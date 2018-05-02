@@ -1,0 +1,14 @@
+<#import "/app/master.html" as master />
+<#import  "/app/footer.html" as footer>
+<#macro frame csss=[] scripts=[]>
+<@master.master csss=csss scripts=scripts>
+<@footer.footer />
+ <#nested>
+</@master.master>
+</#macro>
+<#macro script >
+<script src="${basePath}/static/js/mui.min.js" type="text/javascript"></script>
+<script src="${basePath}/static/js/jquery-1.8.3.min.js" type="text/javascript"></script>
+<#nested>
+</#macro>
+	
