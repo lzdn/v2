@@ -18,6 +18,8 @@ public class UserServiceImpl implements IUserService {
 	public User findByAccount(String account) {
 		return userMapper.findByAccount(account);
 	}
+	
+	
 
 	@Override
 	@Transactional(value = "myTransactionManager")

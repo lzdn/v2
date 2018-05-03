@@ -103,4 +103,25 @@
       status = #{status,jdbcType=INTEGER}
     where module_id = #{moduleId,jdbcType=INTEGER}
   </update>
+  
+    <resultMap id="userModuleResult" type="com.xuexi.v2.domain.Module" extends="BaseResultMap">
+		<collection property="menus" ofType="com.xuexi.v2.domain.Menu">
+			<id column="menu_id" jdbcType="INTEGER" property="menuId" />
+		    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+		    <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
+		    <result column="url" jdbcType="VARCHAR" property="url" />
+		    <result column="level" jdbcType="INTEGER" property="level" />
+		</collection>
+	</resultMap>
+  
+  <select id="findByUserModules" parameterType="java.lang.Integer"  resultMap="userModuleResult">
+  	select t.module_id, t.icon, t.module_name,t1.menu_id,t1.menu_name, t1.menu_code,t1.url 
+  	from t_module t 
+  	left join t_menu t1 on t1.module_id = t.module_id
+  	left join t_right t2 on t2.menu_id = t1.menu_id
+  	left join t_role_right_relation t3 on t3.right_id = t2.right_id
+  	left join t_user_role_relation t4 on t4.role_id = t3.role_id
+  	where 1 = 1 and t1.level = 0 and t4.user_id =#{userId,jdbcType=INTEGER}
+  	order by t.order_by,t1.order_by
+  </select>
 </mapper>

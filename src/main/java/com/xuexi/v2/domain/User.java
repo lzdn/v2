@@ -36,6 +36,8 @@ public class User {
 
 	private List<Role> roles;
 
+	private List<Module> modules;
+
 	public Integer getUserId() {
 		return userId;
 	}
@@ -164,4 +166,11 @@ public class User {
 		this.roles = roles;
 	}
 
+	public List<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(List<Module> modules) {
+		this.modules = modules;
+	}
 }

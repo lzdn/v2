@@ -87,7 +87,7 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 			String resURL = ite.next();
 			RequestMatcher requestMatcher = new AntPathRequestMatcher(resURL);
 			if (requestMatcher.matches(filterInvocation.getHttpRequest())) {
-				return resourceMap.get(resURL);
+				return resourceMap.get(resURL);//如果多个角色拥有同一个权限 好像有个bug
 			}
 		}
 		return null;

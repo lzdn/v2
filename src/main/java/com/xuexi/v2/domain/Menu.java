@@ -1,93 +1,105 @@
 package com.xuexi.v2.domain;
 
+import java.util.List;
+
 public class Menu {
-    private Integer menuId;
+	private Integer menuId;
 
-    private Integer groupId;
+	private Integer moduleId;
 
-    private String menuName;
+	private String menuName;
 
-    private String menuCode;
+	private String menuCode;
 
-    private String url;
+	private String url;
 
-    private Integer level;
+	private Integer level;
 
-    private String description;
+	private String description;
 
-    private Integer status;
+	private Integer status;
 
-    private Integer orderBy;
+	private Integer orderBy;
 
-    public Integer getMenuId() {
-        return menuId;
-    }
+	private List<Menu> children;
 
-    public void setMenuId(Integer menuId) {
-        this.menuId = menuId;
-    }
+	public Integer getMenuId() {
+		return menuId;
+	}
 
-    public Integer getGroupId() {
-        return groupId;
-    }
+	public void setMenuId(Integer menuId) {
+		this.menuId = menuId;
+	}
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
-    }
+	public Integer getModuleId() {
+		return moduleId;
+	}
 
-    public String getMenuName() {
-        return menuName;
-    }
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
+	}
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName == null ? null : menuName.trim();
-    }
+	public String getMenuName() {
+		return menuName;
+	}
 
-    public String getMenuCode() {
-        return menuCode;
-    }
+	public void setMenuName(String menuName) {
+		this.menuName = menuName == null ? null : menuName.trim();
+	}
 
-    public void setMenuCode(String menuCode) {
-        this.menuCode = menuCode == null ? null : menuCode.trim();
-    }
+	public String getMenuCode() {
+		return menuCode;
+	}
 
-    public String getUrl() {
-        return url;
-    }
+	public void setMenuCode(String menuCode) {
+		this.menuCode = menuCode == null ? null : menuCode.trim();
+	}
 
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
-    }
+	public String getUrl() {
+		return url;
+	}
 
-    public Integer getLevel() {
-        return level;
-    }
+	public void setUrl(String url) {
+		this.url = url == null ? null : url.trim();
+	}
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
+	public Integer getLevel() {
+		return level;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setDescription(String description) {
+		this.description = description == null ? null : description.trim();
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public Integer getOrderBy() {
-        return orderBy;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setOrderBy(Integer orderBy) {
-        this.orderBy = orderBy;
-    }
+	public Integer getOrderBy() {
+		return orderBy;
+	}
+
+	public void setOrderBy(Integer orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public List<Menu> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Menu> children) {
+		this.children = children;
+	}
 }

@@ -1,5 +1,6 @@
 package com.xuexi.v2.security;
 
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,17 +8,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import com.xuexi.v2.domain.Module;
+import com.xuexi.v2.domain.Role;
 import com.xuexi.v2.domain.User;
+import com.xuexi.v2.service.IModuleService;
+import com.xuexi.v2.service.IRoleService;
 import com.xuexi.v2.service.IUserService;
-
- 
 
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired // 业务服务类
 	private IUserService userService;
- 
+
+	@Autowired
+	private IRoleService roleService;
+
+	@Autowired
+	private IModuleService moduleService;
 
 	@Override
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
@@ -27,9 +35,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("帐户： " + account + " 不存在");
 		}
-		//List<Role> list = roleService.findByUserId(user.getUserId());
-	//	user.setRoles(new HashSet<Role>(list));
-		// SecurityUser实现UserDetails并将SysUser的name映射为username
+		List<Role> roles = roleService.findByUserRole(user.getUserId());
+		user.setRoles(roles);
+
+		List<Module> modules = moduleService.findByUserModules(user.getUserId());
+		user.setModules(modules);
+
 		SecurityUser seu = new SecurityUser(user);
 		return seu;
 	}

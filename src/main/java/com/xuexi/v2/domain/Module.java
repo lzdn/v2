@@ -1,5 +1,7 @@
 package com.xuexi.v2.domain;
 
+import java.util.List;
+
 public class Module {
     private Integer moduleId;
 
@@ -12,8 +14,11 @@ public class Module {
     private Integer orderBy;
 
     private Integer status;
+    
+    private List<Menu> menus;
 
-    public Integer getModuleId() {
+ 
+	public Integer getModuleId() {
         return moduleId;
     }
 
@@ -60,4 +65,13 @@ public class Module {
     public void setStatus(Integer status) {
         this.status = status;
     }
+    
+    public List<Menu> getMenus() {
+ 		return menus;
+ 	}
+
+ 	public void setMenus(List<Menu> menus) {
+ 		this.menus = menus;
+ 	}
+
 }

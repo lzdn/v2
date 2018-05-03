@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.xuexi.v2.security.SecurityUser;
 import com.xuexi.v2.web.base.BaseController;
 
 @Controller
@@ -28,10 +29,21 @@ public class HomeController extends BaseController {
 		return "/login";
 	}
 	
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String register(HttpServletRequest request, Model model) throws Exception {
+		logger.info("enter register!");
+		return "/register";
+	}
+	
+	@RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
 	public String welcome(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-		logger.debug("enter home!");
-		return "/welcome";
+		SecurityUser user = super.getLoginUser();
+//		model.addAttribute("user", user);
+		if(user.getUserId()==null) {
+			super.redirect(response,"/login"); 
+			return null;
+		} 
+		return "/home";
 	}
 
 }

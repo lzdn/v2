@@ -3,7 +3,7 @@
 <mapper namespace="com.xuexi.v2.mapper.MenuMapper">
   <resultMap id="BaseResultMap" type="com.xuexi.v2.domain.Menu">
     <id column="menu_id" jdbcType="INTEGER" property="menuId" />
-    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="module_id" jdbcType="INTEGER" property="moduleId" />
     <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
     <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
     <result column="url" jdbcType="VARCHAR" property="url" />
@@ -13,7 +13,7 @@
     <result column="order_by" jdbcType="INTEGER" property="orderBy" />
   </resultMap>
   <sql id="Base_Column_List">
-    menu_id, group_id, menu_name, menu_code, url, level, description, status, order_by
+    menu_id, module_id, menu_name, menu_code, url, level, description, status, order_by
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -26,11 +26,11 @@
     where menu_id = #{menuId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xuexi.v2.domain.Menu">
-    insert into t_menu (menu_id, group_id, menu_name, 
+    insert into t_menu (menu_id, module_id, menu_name, 
       menu_code, url, level, 
       description, status, order_by
       )
-    values (#{menuId,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
+    values (#{menuId,jdbcType=INTEGER}, #{moduleId,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR}, 
       #{menuCode,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
       #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{orderBy,jdbcType=INTEGER}
       )
@@ -41,8 +41,8 @@
       <if test="menuId != null">
         menu_id,
       </if>
-      <if test="groupId != null">
-        group_id,
+      <if test="moduleId != null">
+        module_id,
       </if>
       <if test="menuName != null">
         menu_name,
@@ -70,8 +70,8 @@
       <if test="menuId != null">
         #{menuId,jdbcType=INTEGER},
       </if>
-      <if test="groupId != null">
-        #{groupId,jdbcType=INTEGER},
+      <if test="moduleId != null">
+        #{moduleId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null">
         #{menuName,jdbcType=VARCHAR},
@@ -99,8 +99,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.xuexi.v2.domain.Menu">
     update t_menu
     <set>
-      <if test="groupId != null">
-        group_id = #{groupId,jdbcType=INTEGER},
+      <if test="moduleId != null">
+        module_id = #{moduleId,jdbcType=INTEGER},
       </if>
       <if test="menuName != null">
         menu_name = #{menuName,jdbcType=VARCHAR},
@@ -128,7 +128,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xuexi.v2.domain.Menu">
     update t_menu
-    set group_id = #{groupId,jdbcType=INTEGER},
+    set module_id = #{moduleId,jdbcType=INTEGER},
       menu_name = #{menuName,jdbcType=VARCHAR},
       menu_code = #{menuCode,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},

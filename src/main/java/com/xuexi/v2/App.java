@@ -7,14 +7,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.context.request.RequestContextListener;
-
 import com.xuexi.v2.conf.WebProperties;
-
 
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @EnableConfigurationProperties(WebProperties.class)
 // @EnableAutoConfiguration
-@ComponentScan(value = "com.xuexi")
+@ComponentScan(value = "com.xuexi.v2")
  
 public class App {
 

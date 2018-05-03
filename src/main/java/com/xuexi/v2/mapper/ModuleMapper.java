@@ -1,5 +1,9 @@
 package com.xuexi.v2.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.xuexi.v2.domain.Module;
 
 public interface ModuleMapper {
@@ -14,4 +18,6 @@ public interface ModuleMapper {
     int updateByPrimaryKeySelective(Module record);
 
     int updateByPrimaryKey(Module record);
+    
+    List<Module> findByUserModules(@Param("userId") Integer userId);
 }

@@ -46,13 +46,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
 		  http.csrf().disable() 
 	        .authorizeRequests()  
-	        .antMatchers("/druid/login.html").permitAll()   .anyRequest().authenticated()  
+	        .antMatchers("/static/**").permitAll()
+	        .antMatchers("/register").permitAll()
+	        .anyRequest().authenticated()  
 	        .and()  
 	        .formLogin()  
 	        .loginPage("/login")      
 	  //      .failureUrl("/login?error")
 	        .successHandler(loginSuccessHandler())//code3
-	        .defaultSuccessUrl("/home")
+//	        .defaultSuccessUrl("/home")  defaultSuccessUrl 和 successHandler只能用一个，否则 defaultSuccessUrl 会覆盖 successHandler
 	        .permitAll()
 	        .and()  
 	        .logout()  

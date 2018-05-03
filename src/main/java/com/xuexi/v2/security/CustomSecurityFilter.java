@@ -10,8 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+/*import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;*/
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
@@ -33,7 +33,7 @@ public class CustomSecurityFilter extends AbstractSecurityInterceptor implements
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	private Logger logger = LoggerFactory.getLogger(CustomSecurityFilter.class);
+//	private Logger logger = LoggerFactory.getLogger(CustomSecurityFilter.class);
 
 	@PostConstruct
 	public void init() {
@@ -52,7 +52,7 @@ public class CustomSecurityFilter extends AbstractSecurityInterceptor implements
 	}
 
 	public void invoke(FilterInvocation fi) throws IOException, ServletException {
-		logger.info("执行 CustomSecurityFilter："+fi.getRequestUrl());
+	//	logger.info("执行 CustomSecurityFilter："+fi.getRequestUrl());
 		InterceptorStatusToken token = super.beforeInvocation(fi);
 		try {
 			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
