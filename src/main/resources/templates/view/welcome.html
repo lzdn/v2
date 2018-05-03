@@ -10,7 +10,16 @@
 <meta name="description" content="">
 
 </head>
-<body>welcome
+<body>
+welcome
+<@security.hasPermission name="/dept/main">
+       <button class="btn btn-success " type="button" onclick="add();"><i class="fa fa-plus"></i>&nbsp;添加</button>
+</@security.hasPermission>
+
+<@security.hasRole name="admin">
+       <button class="btn btn-success " type="button" onclick="add();"><i class="fa fa-plus"></i>&nbsp;添加</button>
+</@security.hasRole>
+
 </body>
 
 </html>

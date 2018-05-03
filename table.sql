@@ -1,4 +1,17 @@
- 
+/*
+Navicat MySQL Data Transfer
+
+Source Server         : 本地
+Source Server Version : 50718
+Source Host           : localhost:3306
+Source Database       : xuexi
+
+Target Server Type    : MYSQL
+Target Server Version : 50718
+File Encoding         : 65001
+
+Date: 2018-05-03 21:14:15
+*/
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -13,13 +26,12 @@ CREATE TABLE `t_dept` (
   `dept_full_name` varchar(255) DEFAULT NULL COMMENT '全称',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='部门表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of t_dept
 -- ----------------------------
 INSERT INTO `t_dept` VALUES ('1', '1', '总经理办公室', '总经理办公室', '');
- 
 
 -- ----------------------------
 -- Table structure for t_dict
@@ -33,9 +45,11 @@ CREATE TABLE `t_dict` (
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='字典表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典表';
 
- 
+-- ----------------------------
+-- Records of t_dict
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_menu
@@ -52,12 +66,24 @@ CREATE TABLE `t_menu` (
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   `order_by` int(11) NOT NULL DEFAULT '999' COMMENT '排序',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='菜单表';
-
- 
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='菜单表';
 
 -- ----------------------------
--- Table structure for t_menu_group
+-- Records of t_menu
+-- ----------------------------
+INSERT INTO `t_menu` VALUES ('1', '2', '部门管理', '', '/dept/main', '0', '', '1', '1');
+INSERT INTO `t_menu` VALUES ('2', '2', '权限管理', '', '/right/main', '0', '', '1', '2');
+INSERT INTO `t_menu` VALUES ('3', '2', '模块管理', '', '/group/main', '0', '', '1', '4');
+INSERT INTO `t_menu` VALUES ('4', '2', '菜单管理', '', '/menu/main', '0', '', '1', '5');
+INSERT INTO `t_menu` VALUES ('5', '3', '产品列表', '', '/product/main', '0', '', '1', '1');
+INSERT INTO `t_menu` VALUES ('6', '2', '角色管理', '', '/role/main', '0', '', '1', '3');
+INSERT INTO `t_menu` VALUES ('7', '2', '用户管理', '', '/user/main', '0', '', '1', '6');
+INSERT INTO `t_menu` VALUES ('8', '3', '产品类别', '', '/kind/main', '0', '', '1', '2');
+INSERT INTO `t_menu` VALUES ('9', '3', '产品品牌', '', '/brand/main', '0', '', '1', '3');
+INSERT INTO `t_menu` VALUES ('10', '2', '系统字典', '', '/dict/main', '0', '', '1', '7');
+
+-- ----------------------------
+-- Table structure for t_module
 -- ----------------------------
 DROP TABLE IF EXISTS `t_module`;
 CREATE TABLE `t_module` (
@@ -68,10 +94,10 @@ CREATE TABLE `t_module` (
   `order_by` int(11) NOT NULL DEFAULT '999' COMMENT '排序',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   PRIMARY KEY (`module_id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='菜单组表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='菜单组表';
 
 -- ----------------------------
--- Records of t_menu_group
+-- Records of t_module
 -- ----------------------------
 INSERT INTO `t_module` VALUES ('1', 'fa fa-user', '个人中心', '个人中心', '1', '1');
 INSERT INTO `t_module` VALUES ('2', 'fa fa-power-off', '系统设置', '系统设置', '2', '1');
@@ -92,12 +118,17 @@ CREATE TABLE `t_right` (
   PRIMARY KEY (`right_id`),
   UNIQUE KEY `t_right_right_url` (`right_url`),
   KEY `t_right_menu_index` (`menu_id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
 -- Records of t_right
 -- ----------------------------
- 
+INSERT INTO `t_right` VALUES ('1', '/dept/main', '0', '部门管理', '1', '', '1');
+INSERT INTO `t_right` VALUES ('2', '/right/main', '0', '权限管理', '2', '', '1');
+INSERT INTO `t_right` VALUES ('3', '/group/main', '0', '菜单组管理', '3', '', '1');
+INSERT INTO `t_right` VALUES ('4', '/menu/main', '0', '菜单管理', '4', '', '1');
+INSERT INTO `t_right` VALUES ('5', '/product/main', '0', '产品列表', '5', '', '1');
+INSERT INTO `t_right` VALUES ('6', '/role/main', '0', '角色管理', '6', '', '1');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -109,7 +140,7 @@ CREATE TABLE `t_role` (
   `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
@@ -133,7 +164,11 @@ CREATE TABLE `t_role_right_relation` (
 -- Records of t_role_right_relation
 -- ----------------------------
 INSERT INTO `t_role_right_relation` VALUES ('1', '1');
- 
+INSERT INTO `t_role_right_relation` VALUES ('1', '2');
+INSERT INTO `t_role_right_relation` VALUES ('1', '3');
+INSERT INTO `t_role_right_relation` VALUES ('1', '4');
+INSERT INTO `t_role_right_relation` VALUES ('1', '5');
+INSERT INTO `t_role_right_relation` VALUES ('1', '6');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -156,12 +191,12 @@ CREATE TABLE `t_user` (
   `login_time` datetime DEFAULT NULL COMMENT '登录时间',
   `last_login_time` datetime DEFAULT NULL COMMENT '上次登录时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB   DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1000', '1', null, 'admin', '9c9d6357c2e36766', '&|^286._', '刘德华', null, null, '415656544@qq.com', null, '1', '2017-10-18 17:42:40', null, null);
+INSERT INTO `t_user` VALUES ('1000', '1', null, 'admin', '42f6bfd8e35a280d7a212cb76ae76280', '&|^286._', '刘德华', null, null, '415656544@qq.com', null, '1', '2017-10-18 17:42:40', null, null);
 
 -- ----------------------------
 -- Table structure for t_user_role_relation
