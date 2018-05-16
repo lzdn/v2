@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 本地
-Source Server Version : 50718
+Source Server Version : 50716
 Source Host           : localhost:3306
 Source Database       : xuexi
 
 Target Server Type    : MYSQL
-Target Server Version : 50718
+Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-05-03 21:14:15
+Date: 2018-05-17 01:48:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -118,7 +118,7 @@ CREATE TABLE `t_right` (
   PRIMARY KEY (`right_id`),
   UNIQUE KEY `t_right_right_url` (`right_url`),
   KEY `t_right_menu_index` (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
 -- Records of t_right
@@ -129,6 +129,7 @@ INSERT INTO `t_right` VALUES ('3', '/group/main', '0', '菜单组管理', '3', '
 INSERT INTO `t_right` VALUES ('4', '/menu/main', '0', '菜单管理', '4', '', '1');
 INSERT INTO `t_right` VALUES ('5', '/product/main', '0', '产品列表', '5', '', '1');
 INSERT INTO `t_right` VALUES ('6', '/role/main', '0', '角色管理', '6', '', '1');
+INSERT INTO `t_right` VALUES ('7', '/user/main', '0', '用户管理', '7', null, '1');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -169,6 +170,7 @@ INSERT INTO `t_role_right_relation` VALUES ('1', '3');
 INSERT INTO `t_role_right_relation` VALUES ('1', '4');
 INSERT INTO `t_role_right_relation` VALUES ('1', '5');
 INSERT INTO `t_role_right_relation` VALUES ('1', '6');
+INSERT INTO `t_role_right_relation` VALUES ('1', '7');
 
 -- ----------------------------
 -- Table structure for t_user
