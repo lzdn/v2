@@ -1,0 +1,28 @@
+<#macro splitPage pageCount pageNo formId recordCount>
+<div class="text-right">
+	<ul class="pagination" id="myPage"></ul>
+	<div class="pageJump">
+		<span>跳转到</span> <input type="text" name="jumpPage" class=""/> <span>页</span>
+		<button type="button" class="button">确定</button>
+		<span class="label label-info">当前第 ${pageNo} 页  共 ${pageCount} 页  共 ${recordCount} 条记录</span>
+	</div>
+</div>
+<script src="${basePath}/static/js/jquery.min.js"></script>
+<script src="${basePath}/static/js/plugins/pager/pager.js"></script>
+<script type="text/javascript" charset="utf-8">
+public_split_page({
+	num:${pageCount!0},//页码数
+    startnum:${pageNo!0},//指定页码
+    elem:$('#myPage'),//指定的元素
+    callback:function(pageNo){//回调函数
+    	$("#${formId}_pageNo").remove();
+    	$("#${formId}").append("<input type='hidden' id='${formId}_pageNo' name='pageNo' value='" + pageNo + "' />");
+    	$("#${formId}").submit();
+    }
+});
+</script>	
+</#macro>
+
+
+
+   
