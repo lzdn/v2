@@ -1,36 +1,78 @@
 <#import "/frameV2.html" as frame />
-<@frame.frame csss=[] scripts=[]>
+<#import "/splitPage.html" as splitPage />
+<@frame.frame csss=["plugins/pager/pager.css"] scripts=[] locations=["用户管理","用户列表"]>
 <div class="wrapper wrapper-content  animated fadeInRight">
-       <div class="row">
-           <div class="col-sm-12">
-               <div class="ibox ">
-                   <div class="ibox-title">
-                       <h5>用户管理</h5>
-                   </div>
-                   <div class="ibox-content">
-                       <p>
-                       	<button class="btn btn-success" type="button" onclick="add();"><i class="fa fa-plus"></i>添&nbsp;加</button>
-                   	 	</p>
-                    <hr>
-                    <div class="row row-lg">
-	                  <div class="col-sm-12">
-	                      <!-- Example Card View -->
-	                      <div class="example-wrap">
-	                          <div class="example">
-	                          	<table id="table_list"></table>
-	                          </div>
-	                      </div>
-	                      <!-- End Example Card View -->
-	                  </div>
-                 </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<!-- <div class="ibox-title">
+					<h5>用户列表</h5>
+				</div> -->
+				<div class="ibox-content">
+					<div class="ibox-dowith">
+                         <a onclick="fnClickAddRow();" href="javascript:void(0);" class="btn btn-primary ">添加行</a>
+                     </div>
+                     <div class="ibox-form">
+                     	<form id="searchForm" class="form-inline">
+	                         <div class="form-group">
+	                             <label class="control-label">用户名</label>
+	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                         </div>
+	                         <div class="form-group">
+	                             <label class="control-label">用户名</label>
+	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                         </div>
+	                          <div class="form-group">
+	                             <label class="control-label">用户名</label>
+	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                         </div>
+	                         <button class="btn btn-white" type="submit">搜索</button>
+	                     </form>
+                     </div>
+					<table class="table table-bordered table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>姓名</th>
+								<th>性别</th>
+								<th>年龄</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>张三</td>
+								<td>男</td>
+								<td>23</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>李四</td>
+								<td>男</td>
+								<td>27</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>王麻子</td>
+								<td>男</td>
+								<td>65</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="4" >
+									<@splitPage.splitPage pageCount=60 pageNo=2 formId="searchForm" recordCount=10 />
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-</@frame.frame>
+</@frame.frame> 
 <@frame.script>
-<script type="text/javascript" charset="utf-8">
- 
-</script>
+
 </@frame.script>

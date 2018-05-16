@@ -1,6 +1,20 @@
-<#import "/app/master.html" as master />
-<#macro frame csss=[] scripts=[]>
+<#import "/master.html" as master />
+<#macro frame csss=[] scripts=[] locations=[]>
 <@master.master csss=csss scripts=scripts>
+<div class="row wrapper border-bottom white-bg" style="padding: 15px 40px;">
+   <ol class="breadcrumb">
+     	<#if locations?exists&&locations?size gt 0>
+     		<#assign msize = locations?size>
+		 	<#list locations as location>
+		 		<#if location_index = (msize-1)>
+		 			<li><strong>${location!}</strong></li>
+		 		<#else>
+		 			<li><a href="javascript:void(0)">${location!}</a></li>
+		 		</#if>
+			 </#list>
+		</#if>
+     </ol>
+ </div>
  <#nested>
 </@master.master>
 </#macro>
