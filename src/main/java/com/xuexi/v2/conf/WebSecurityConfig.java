@@ -34,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CustomAccessDeniedHandler customAccessDeniedHandler;
 
+	@Autowired
+	private WebProperties webProperties;
+	
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 
@@ -43,22 +46,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
- 
+		 
 		  http.csrf().disable() 
 	        .authorizeRequests()  
-	        .antMatchers("/static/**").permitAll()
-	        .antMatchers("/register").permitAll()
+	        .antMatchers(webProperties.getProjectName()+"/static/**").permitAll()
+	        .antMatchers(webProperties.getProjectName()+"/register").permitAll()
 	        .anyRequest().authenticated()  
 	        .and()  
 	        .formLogin()  
-	        .loginPage("/login")      
+	        .loginPage(webProperties.getProjectName()+"/login")      
 	  //      .failureUrl("/login?error")
 	        .successHandler(loginSuccessHandler())//code3
 //	        .defaultSuccessUrl("/home")  defaultSuccessUrl 和 successHandler只能用一个，否则 defaultSuccessUrl 会覆盖 successHandler
 	        .permitAll()
 	        .and()  
 	        .logout()  
-	        .logoutSuccessUrl("/login")  
+	        .logoutSuccessUrl(webProperties.getProjectName()+"/login")  
 	        .permitAll()  
 	        .invalidateHttpSession(true)  
 	        .and()  

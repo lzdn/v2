@@ -71,7 +71,27 @@ public class WebProperties {
 		return production;
 	}
 
+	@Value("${web.uploadLocalPath}") 
+	private String uploadLocalPath;
+
+	public String getUploadLocalPath() {
+		return uploadLocalPath;
+	}
  
+	@Value("${web.projectName}")
+	private String projectName;
+
+	public String getProjectName() {
+		return projectName;
+	}
+	
+	@Value("${web.downloadPath}")
+	private String downloadPath;
+
+	public String getDownloadPath() {
+		return downloadPath;
+	}
+	
 	 
 	
 	

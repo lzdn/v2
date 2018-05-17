@@ -4,8 +4,8 @@ import com.xuexi.v2.domain.User;
 
 public class UserDto extends User {
 
-	private int pageNo;
-	private int pageSize;
+	private int pageNo = 1;
+	private int pageSize = 10;
 
 	public int getPageNo() {
 		return pageNo;

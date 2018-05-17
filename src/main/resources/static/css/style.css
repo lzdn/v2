@@ -3500,7 +3500,7 @@ video {
 }
 
 .inmodal .modal-header {
-    padding: 30px 15px;
+    padding: 5px 15px;
     text-align: center;
 }
 
@@ -3511,7 +3511,7 @@ video {
 }
 
 .inmodal .modal-title {
-    font-size: 26px;
+    font-size: 16px;
 }
 
 .inmodal .modal-icon {
@@ -3521,6 +3521,7 @@ video {
 
 .modal-footer {
     margin-top: 0;
+    text-align:center;
 }
 
 

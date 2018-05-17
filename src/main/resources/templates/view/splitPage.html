@@ -1,9 +1,11 @@
 <#macro splitPage pageCount pageNo formId recordCount>
-<div class="text-right">
+<div class="text-center">
 	<ul class="pagination" id="myPage"></ul>
 	<div class="pageJump">
-		<span>跳转到</span> <input type="text" name="jumpPage" class=""/> <span>页</span>
-		<button type="button" class="button">确定</button>
+		<#if pageCount gt 1>
+			<span>跳转到</span> <input type="text" name="jumpPage" class=""/> <span>页</span>
+			<button type="button" class="button">确定</button>
+		</#if>
 		<span class="label label-info">当前第 ${pageNo} 页  共 ${pageCount} 页  共 ${recordCount} 条记录</span>
 	</div>
 </div>

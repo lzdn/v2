@@ -1,6 +1,6 @@
 <#import "/frameV2.html" as frame />
 <#import "/splitPage.html" as splitPage />
-<@frame.frame csss=["plugins/pager/pager.css"] scripts=[] locations=["用户管理","用户列表"]>
+<@frame.frame csss=["plugins/pager/pager.css","plugins/upload/fileinput.css"] scripts=[] locations=["用户管理","用户列表"]>
 <div class="wrapper wrapper-content  animated fadeInRight">
 	<div class="row">
 		<div class="col-sm-12">
@@ -10,21 +10,21 @@
 				</div> -->
 				<div class="ibox-content">
 					<div class="ibox-dowith">
-                         <a onclick="fnClickAddRow();" href="javascript:void(0);" class="btn btn-primary ">添加行</a>
+                         <a  href="#addUserModal" class="btn btn-primary" data-toggle="modal" >新增用户</a>
                      </div>
                      <div class="ibox-form">
                      	<form id="searchForm" class="form-inline">
 	                         <div class="form-group">
-	                             <label class="control-label">用户名</label>
-	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                             <label class="control-label">用户ID</label>
+	                             <input type="text" name="userId" placeholder="请输入用户ID" class="form-control" value="${userDto.userId!}">
 	                         </div>
 	                         <div class="form-group">
 	                             <label class="control-label">用户名</label>
-	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                             <input type="text" name="username" placeholder="请输入用户名" class="form-control" value="${userDto.username!}">
 	                         </div>
 	                          <div class="form-group">
-	                             <label class="control-label">用户名</label>
-	                             <input type="email" placeholder="请输入用户名" class="form-control">
+	                             <label class="control-label">账户</label>
+	                             <input type="text" name="account" placeholder="请输入账户" class="form-control" value="${userDto.account!}">
 	                         </div>
 	                         <button class="btn btn-white" type="submit">搜索</button>
 	                     </form>
@@ -32,47 +32,204 @@
 					<table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 							<tr>
-								<th>#</th>
+								<th>ID</th>
+								<th>账户</th>
 								<th>姓名</th>
 								<th>性别</th>
-								<th>年龄</th>
+								<th>生日</th>
+								<th>创建时间</th>
+								<th>#</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>1</td>
-								<td>张三</td>
-								<td>男</td>
-								<td>23</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>李四</td>
-								<td>男</td>
-								<td>27</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>王麻子</td>
-								<td>男</td>
-								<td>65</td>
-							</tr>
+							<#if (userSplitPages)?? && (userSplitPages.list)?size gt 0>
+								<#list userSplitPages.list as user>
+									<tr>
+										<td>${user.userId!}</td>
+										<td>${user.account!}</td>
+										<td>${user.username!}</td>
+										<td>${user.sex!}</td>
+										<td><#if (user.birthday)??>${user.birthday?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+										<td><#if (user.createTime)??>${user.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+										<td></td>
+									</tr>
+								</#list>
+							<#else>
+								<tr>
+									<td colspan="7" align="center">
+										没有数据
+									</td>
+								</tr>
+							</#if>
 						</tbody>
-						<tfoot>
-							<tr>
-								<td colspan="4" >
-									<@splitPage.splitPage pageCount=60 pageNo=2 formId="searchForm" recordCount=10 />
-								</td>
-							</tr>
-						</tfoot>
+						<#if (userSplitPages)?? && (userSplitPages.list)?size gt 0>
+							<tfoot>
+								<tr>
+									<td colspan="7" >
+										<@splitPage.splitPage pageCount=userSplitPages.pages pageNo=userSplitPages.pageNum formId="searchForm" recordCount=userSplitPages.total />
+									</td>
+								</tr>
+							</tfoot>
+						</#if>
 					</table>
-					
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- 新增用户 -->
+<div class="modal inmodal fade" id="addUserModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">新增用户</h5>
+            </div>
+            <div class="modal-body">
+	           <form class="form-horizontal m-t" id="userForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">姓名：<span id="usernameError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="username" name="username" class="form-control" type="text"
+                            	 placeholder="请输入姓名" data-parsley-required="true"
+								 data-parsley-required-message="姓名不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="姓名不能超过50"
+								 data-parsley-errors-container="#usernameError"
+                            >
+                           <!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请输入姓名</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">账户：<span id="accountError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="account" name="account" class="form-control" type="text"
+                             	placeholder="请输入账户" data-parsley-required="true"
+								 data-parsley-required-message="账户不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="账户不能超过50" 
+								 data-parsley-errors-container="#accountError"
+							>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">密码：<span id="passwordError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="password" name="password" class="form-control" type="password"
+                             	placeholder="请输入密码" data-parsley-required="true"
+								 data-parsley-required-message="密码不可为空"
+								 data-parsley-maxlength="16"
+								 data-parsley-maxlength-message="密码不能超过16" 
+								 data-parsley-errors-container="#passwordError"
+							>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别：<span id="sexError"></span></label>
+                        <div class="col-sm-8">
+	                         <div class="radio">
+		                         <label>
+		                             <input type="radio" name="sex" value="1" data-parsley-required="true" data-parsley-required-message="选择性别"
+		                             data-parsley-errors-container="#sexError"
+		                             >男
+		                         </label>
+		                          <label>
+		                             <input type="radio" name="sex" value="2" data-parsley-required="true" data-parsley-required-message="选择性别"
+		                             data-parsley-errors-container="#sexError"
+		                             >女
+		                         </label>
+		                     </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">生日：<span id="birthdayError"></span></label>
+                        <div class="col-sm-8">
+                           <input id="birthday" name="birthday" class="laydate-icon form-control layer-date"
+                            data-parsley-required="true" data-parsley-required-message="选择生日" data-parsley-errors-container="#birthdayError"
+                            >
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">头像：<span id="avatarError"></span></label>
+                        <div class="col-sm-8">
+                        	 <input type="hidden" name="avatar" id="avatar" />
+                         	 <input id="file-1" type="file" name="fileElem" multiple class="file" data-overwrite-initial="false" data-min-file-count="1"  
+                         	 data-parsley-required="true" data-parsley-required-message="请选择头像" data-parsley-errors-container="#avatarError" 
+                         	 >
+                        </div>
+                    </div>                        
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" id="closeModal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitFm()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 新增用户 -->
 </@frame.frame> 
 <@frame.script>
+<script src="${basePath}/static/js/plugins/upload/fileinput.js"></script>
+<script>
+function submitFm(){
+	if($('#userForm').parsley().validate()){
+		$.ajax({
+			cache: true,
+			type: "POST",
+			url:"${basePath}/user/add",
+			data:$('#userForm').serialize(),
+			async: true,
+			error: function(request) {
+				parent.layer.alert("服务器异常！");
+			},
+			success: function(data) {
+				if(data.success){
+					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
+					window.location.href=window.location.href;
+				} else{
+					parent.layer.alert('保存失败！');
+				}
+			}
+		});
+	///	$('#closeModal').click();
+	}
+}
+laydate({
+    elem: '#birthday',  
+    event: 'focus' 
+});
 
+$("#file-1").fileinput({
+    uploadUrl: '${basePath}/common/uploadLocal', // you must set a valid URL here else you will get an error
+    allowedFileExtensions : ['jpg', 'png','gif'],
+    overwriteInitial: false,
+    maxFileSize: 1000,
+    maxFileCount:1,
+    minFileCount:1,
+    showUpload: false, //是否显示上传按钮
+    showRemove:false,
+    //enctype: 'multipart/form-data',
+  //  msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+ //   previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+    //allowedFileTypes: ['image', 'video', 'flash'],
+    slugCallback: function(filename) {
+        return filename.replace('(', '_').replace(']', '_');
+    }
+});
+$('#file-1').on('fileuploaded', function(event, data, previewId, index) {
+	$("#avatar").val(data.response.msg);
+/* 	$("#file-1").fileinput('refresh', {
+	    initialPreview: [ //预览图片的设置
+	        "<img src='" + data.response.msg + "' class='file-preview-image' alt='图片' title='图片'>",
+	    ]
+	}); */
+}); 
+$('#file-1').on('fileclear', function(event, data, previewId, index) {
+	$("#avatar").val('');
+}); 
+
+</script>
 </@frame.script>

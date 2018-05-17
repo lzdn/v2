@@ -212,4 +212,19 @@
    <select id="findByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" />  from t_user  where account = #{account,jdbcType=VARCHAR}
   </select>
+   <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" />  from t_user t
+    	<where>
+			<if test="userId != null">
+				and t.user_id = #{userId}
+			</if>
+			<if test="username != null">
+				and t.username like CONCAT('%', #{username}, '%')
+			</if>
+			<if test="account != null">
+				and t.account  = #{account}
+			</if>
+		</where>
+		ORDER BY t.user_id
+  </select>
 </mapper>

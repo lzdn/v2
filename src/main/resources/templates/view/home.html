@@ -52,25 +52,25 @@
                     	
                     	  <#if (module.menus)??&&(module.menus)?size gt 0>
 		                    <li>
-		                     	<a href="javascript:void(0)">
+		                     	<a href="javascript:void(0)" >
 			                        <i class="${module.icon!}"></i> 
 			                        <span class="nav-label">${module.moduleName!}</span>
 			                        <span class="fa arrow"></span>
 		                        </a>
 	                        	<ul class="nav nav-second-level">
 	                         		<#list module.menus as menu>
-	                         		 	<li>
+	                         		 	<li >
 	                         		 		<#if (menu.children)??&&(menu.children)?size gt 0>
-	                         		 			 <a href="javascript:void(0)">${menu.menuName!}<span class="fa arrow"></span></a>
+	                         		 			 <a href="javascript:void(0)" >${menu.menuName!}<span class="fa arrow"></span></a>
 					                                <ul class="nav nav-third-level">
 					                                	<#list menu.children as sub>
-						                                    <li>
-						                                    	<a class="J_menuItem" href="${sub.url!}">${sub.menuName!}</a>
+						                                    <li >
+						                                    	<a class="J_menuItem" href="${basePath}${sub.url!}" >${sub.menuName!}</a>
 						                                    </li>
 					                                	 </#list>   
 					                                </ul>
 	                         		 		<#else>
-	                         		 			<a class="J_menuItem" href="${menu.url!}">${menu.menuName!}</a>
+	                         		 			<a class="J_menuItem" href="${basePath}${menu.url!}" >${menu.menuName!}</a>
 	                         		 		</#if>
 			                            </li>
 	                         		</#list>
@@ -126,7 +126,11 @@
 	    <!-- 第三方插件 -->
 	    <script src="${basePath}/static/js/plugins/pace/pace.min.js"></script>
 	    <script type="text/javascript">
-		    $(".J_menuItem").on('click',function(){
+		  	$(".J_menuItem").on('click',function(){
+		  		 $(".J_menuItem").each(function () {
+		  			$($(this)[0].parentNode).removeClass('active');
+			     });
+		  		$($(this)[0].parentNode).addClass('active');
 		        var url = $(this).attr('href');
 		        $("#J_iframe").attr('src',url);
 		        return false;

@@ -1,5 +1,9 @@
 package com.xuexi.v2.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +35,25 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public Page<User> findSplitPage(UserDto userDto) {
 		
+		Map<String,Object> map = new HashMap<String,Object>();
+
+		if(userDto!=null) {
+			if(userDto.getUserId()!=null) {
+				map.put("userId", userDto.getUserId());
+			}
+			if(StringUtils.isNotEmpty(userDto.getUsername())) {
+				map.put("username", userDto.getUsername());
+			}
+			if(StringUtils.isNotEmpty(userDto.getAccount())) {
+				map.put("account", userDto.getAccount());
+			}
+		}
+		
 		PageHelper.startPage(userDto.getPageNo(), userDto.getPageSize());
 		
+		Page<User> pageInfo = userMapper.findPage(map);
 		
-		
-		return null;
+		return pageInfo;
 	}
 
 }

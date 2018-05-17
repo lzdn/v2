@@ -19,6 +19,10 @@ public class IModuleServiceImpl implements IModuleService {
 	public List<Module> findByUserModules(Integer userId) {
 
 		List<Module> modules = moduleMapper.findByUserModules(userId);
+		/*
+		 * for (Module module : modules) { List<Menu> menus = module.getMenus(); for
+		 * (Menu menu : menus) { menu.setChildren(menus); } }
+		 */
 
 		return modules;
 	}
