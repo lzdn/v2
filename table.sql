@@ -234,3 +234,13 @@ RETURN str;
 END
 ;;
 DELIMITER ;
+
+drop table t_job_log;
+CREATE TABLE `t_job_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id', 
+ 
+  `job_name` varchar(255) NOT NULL COMMENT '任务key', 
+  `description` varchar(255) DEFAULT NULL COMMENT '任务执行描述',
+	`excute_time` datetime DEFAULT NULL COMMENT '执行时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='任务日志表';

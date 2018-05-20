@@ -1,15 +1,27 @@
 package com.xuexi.v2.job;
 
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.xuexi.v2.job.base.BaseJob;
+import com.xuexi.v2.service.IJobService;
 
-public class MyJob implements BaseJob {
+@Component
+public class MyJob extends BaseJob {
+
+	@Autowired
+	private IJobService iJobService;
 
 	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
+	protected String getJobKey() {
+		return "MyJob";
+	}
 
+	@Override
+	protected boolean run(JobExecutionContext context) throws Exception {
+		iJobService.printMsg();
+		return true;
 	}
 
 }
