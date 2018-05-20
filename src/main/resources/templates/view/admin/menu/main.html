@@ -1,0 +1,172 @@
+<#import "/frameV2.html" as frame />
+<#import "/splitPage.html" as splitPage />
+<@frame.frame csss=["plugins/pager/pager.css"] scripts=[] locations=["菜单管理","菜单列表"]>
+<div class="wrapper wrapper-content  animated fadeInRight">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<!-- <div class="ibox-title">
+					<h5>用户列表</h5>
+				</div> -->
+				<div class="ibox-content">
+					<div class="ibox-dowith">
+                         <a  href="#addMenuModal" class="btn btn-primary" data-toggle="modal">新增菜单</a>
+                     </div>
+                     <div class="ibox-form">
+                     	<form id="searchForm" class="form-inline">
+	                         <div class="form-group">
+	                             <label class="control-label">菜单名称</label>
+	                             <input type="text" name="menuName" placeholder="请输入菜单名称" class="form-control" value="${menuDto.menuName!}">
+	                         </div>
+	                         <button class="btn btn-white" type="submit">搜索</button>
+	                     </form>
+                     </div>
+					<table class="table table-bordered table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>菜单ID</th>
+								<th>菜单名称</th>
+								<th>菜单url</th>
+								<th>菜单描述</th>
+								<th>状态</th>
+								<th>#</th>
+							</tr>
+						</thead>
+						<tbody>
+							<#if (menuSplitPages)?? && (menuSplitPages.list)?size gt 0>
+								<#list menuSplitPages.list as menu>
+									<tr>
+										<td>${menu.menuId!}</td>
+										<td>${menu.menuName!}</td>
+										<td>${menu.url!}</td>
+										<td>${menu.description!}</td>
+										<td>
+											<#if menu.status == 1>有效</#if>
+											<#if menu.status == 0>无效</#if>
+										</td>
+										<td></td>
+									</tr>
+								</#list>
+							<#else>
+								<tr>
+									<td colspan="6" align="center">
+										没有数据
+									</td>
+								</tr>
+							</#if>
+						</tbody>
+						<#if (menuSplitPages)?? && (menuSplitPages.list)?size gt 0>
+							<tfoot>
+								<tr>
+									<td colspan="6" >
+										<@splitPage.splitPage pageCount=menuSplitPages.pages pageNo=menuSplitPages.pageNum formId="searchForm" recordCount=menuSplitPages.total />
+									</td>
+								</tr>
+							</tfoot>
+						</#if>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal inmodal fade" id="addMenuModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">新增模块</h5>
+            </div>
+            <div class="modal-body">
+	           <form class="form-horizontal m-t" id="moduleForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模块名称：<span id="moduleNameError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="moduleName" name="moduleName" class="form-control" type="text"
+                            	 placeholder="请输入模块名称" data-parsley-required="true"
+								 data-parsley-required-message="模块名称不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="模块名称不能超过50"
+								 data-parsley-errors-container="#moduleNameError"
+                            >
+                           <!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请输入姓名</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">模块icon：<span id="iconError"></span></label>
+                        <div class="col-sm-8">
+                            <input  name="icon" class="form-control" type="text"
+                             	placeholder="请输入模块icon" data-parsley-required="true"
+								 data-parsley-required-message="模块icon不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="模块icon不能超过50" 
+								 data-parsley-errors-container="#iconError"
+							>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">排序：<span id="orderByError"></span></label>
+                        <div class="col-sm-8">
+                            <input  name="orderBy" class="form-control" type="text"
+                             	 placeholder="请输入模块排序" data-parsley-required="true"
+								 data-parsley-required-message="模块排序不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="模块排序不能超过50" 
+								 data-parsley-errors-container="#orderByError"
+							>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label">模块描述：<span id="descriptionError"></span></label>
+                        <div class="col-sm-8">
+                        <textarea class="form-control"
+								  name="description" rows="5"
+								  placeholder="输入部门描述"
+								  data-parsley-maxlength="1000"
+								  data-parsley-maxlength-message="部门描述不能超过1000字"
+								  data-parsley-required="true"
+								  data-parsley-required-message="部门描述不可为空"></textarea>
+							<!-- description -->
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" id="closeModal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitFm()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 新增用户 -->
+</@frame.frame> 
+<@frame.script>
+<script>
+function submitFm(){
+	if($('#moduleForm').parsley().validate()){
+		$.ajax({
+			cache: true,
+			type: "POST",
+			url:"${basePath}/module/add",
+			data:$('#moduleForm').serialize(),
+			async: true,
+			error: function(request) {
+				parent.layer.alert("服务器异常！");
+			},
+			success: function(data) {
+				if(data.success){
+					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
+					window.location.href=window.location.href;
+				} else{
+					parent.layer.alert('保存失败！');
+				}
+			}
+		});
+	///	$('#closeModal').click();
+	}
+} 
+</script>
+</@frame.script>
