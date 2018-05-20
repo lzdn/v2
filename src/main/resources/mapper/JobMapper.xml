@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
 <mapper namespace="com.xuexi.v2.mapper.JobMapper">  
     
-    <select id="findPage" resultType="com.xuexi.v2.domain.Job">
+    <select id="findPage" resultType="com.xuexi.v2.domain.Job"  parameterType="Map" >
 			SELECT
 				qrtz_job_details.JOB_NAME,
 				qrtz_job_details.JOB_GROUP,
@@ -17,6 +17,11 @@
 			JOIN qrtz_cron_triggers ON qrtz_job_details.JOB_NAME = qrtz_triggers.JOB_NAME
 			AND qrtz_triggers.TRIGGER_NAME = qrtz_cron_triggers.TRIGGER_NAME
 			AND qrtz_triggers.TRIGGER_GROUP = qrtz_cron_triggers.TRIGGER_GROUP
+			<where>
+				<if test="JOB_NAME != null">
+					and qrtz_job_details.JOB_NAME like CONCAT('%', #{JOB_NAME}, '%')
+				</if>
+			</where>
     </select>
     
 </mapper>

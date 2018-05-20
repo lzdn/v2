@@ -1,5 +1,8 @@
 package com.xuexi.v2.mapper;
 
+import java.util.Map;
+
+import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Menu;
 
 public interface MenuMapper {
@@ -15,6 +18,6 @@ public interface MenuMapper {
 
 	int updateByPrimaryKey(Menu record);
 
-	// List<Menu> findSubMenus();
+	Page<Menu> findPage(Map<String,Object> map);
 
 }

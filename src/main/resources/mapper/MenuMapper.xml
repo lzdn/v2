@@ -138,4 +138,16 @@
       order_by = #{orderBy,jdbcType=INTEGER}
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
+  	<select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+		select
+			 <include refid="Base_Column_List" />
+		from t_menu t
+		<where>
+			<if test="menuName != null">
+				and t.menu_name like CONCAT('%', #{menuName},'%')
+			</if>
+		</where>
+		ORDER BY t.menu_id
+	</select>
+	
 </mapper>

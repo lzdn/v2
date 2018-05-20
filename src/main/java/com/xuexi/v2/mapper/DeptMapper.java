@@ -1,5 +1,9 @@
 package com.xuexi.v2.mapper;
 
+import java.util.List;
+import java.util.Map;
+
+import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Dept;
 
 public interface DeptMapper {
@@ -15,4 +19,8 @@ public interface DeptMapper {
 	int updateByPrimaryKeySelective(Dept record);
 
 	int updateByPrimaryKey(Dept record);
+	
+	Page<Dept> findPage(Map<String,Object> map);
+	
+	List<Dept> list();
 }

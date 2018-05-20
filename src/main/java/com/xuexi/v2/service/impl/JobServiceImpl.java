@@ -1,5 +1,9 @@
 package com.xuexi.v2.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +28,14 @@ public class JobServiceImpl implements IJobService {
 
 	@Override
 	public PageInfo<Job> findAll(JobDto job) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (job != null) {
+			if (StringUtils.isNotEmpty(job.getJOB_NAME())) {
+				map.put("JOB_NAME", job.getJOB_NAME());
+			}
+		}
 		PageHelper.startPage(job.getPageNo(), job.getPageSize());
-		Page<Job> page = jobMapper.findPage();
+		Page<Job> page = jobMapper.findPage(map);
 		return page.toPageInfo();
 	}
 

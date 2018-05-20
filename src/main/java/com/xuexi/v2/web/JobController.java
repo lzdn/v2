@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.xuexi.v2.domain.Job;
 import com.xuexi.v2.domain.dto.JobDto;
-import com.xuexi.v2.job.MyJob;
 import com.xuexi.v2.job.base.BaseJob;
 import com.xuexi.v2.service.IJobService;
 import com.xuexi.v2.web.base.BaseController;
@@ -56,6 +55,7 @@ public class JobController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			createNewJob(jobName, jobClassName, jobGroupName, cronExpression);
+			log.info("创建Job" + jobClassName);
 			map.put("success", true);
 		} catch (Exception e) {
 			map.put("success", false);

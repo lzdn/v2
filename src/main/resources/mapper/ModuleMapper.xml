@@ -124,4 +124,16 @@
   	where 1 = 1 and t1.level = 0 and t4.user_id =#{userId,jdbcType=INTEGER}
   	order by t.order_by,t1.order_by
   </select>
+  
+  	<select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+		select
+		 <include refid="Base_Column_List" />
+		from t_module t
+		<where>
+			<if test="moduleName != null">
+				and t.module_name like CONCAT('%', #{moduleName},'%')
+			</if>
+		</where>
+		ORDER BY t.module_id
+	</select>
 </mapper>
