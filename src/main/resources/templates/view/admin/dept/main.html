@@ -1,0 +1,173 @@
+<#import "/frameV2.html" as frame />
+<#import "/splitPage.html" as splitPage />
+<@frame.frame csss=["plugins/pager/pager.css"] scripts=[] locations=["部门管理","部门列表"]>
+<div class="wrapper wrapper-content  animated fadeInRight">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox">
+				<!-- <div class="ibox-title">
+					<h5>用户列表</h5>
+				</div> -->
+				<div class="ibox-content">
+					<div class="ibox-dowith">
+                         <a  href="#addDeptModal" class="btn btn-primary" data-toggle="modal" >新增部门</a>
+                     </div>
+                     <div class="ibox-form">
+                     	<form id="searchForm" class="form-inline">
+	                         <div class="form-group">
+	                             <label class="control-label">部门名称</label>
+	                             <input type="text" name="deptFullName" placeholder="请输入部门名称" class="form-control" value="${deptDto.deptFullName!}">
+	                         </div>
+	                         <button class="btn btn-white" type="submit">搜索</button>
+	                     </form>
+                     </div>
+					<table class="table table-bordered table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th>部门ID</th>
+								<th>部门全称</th>
+								<th>部门简称</th>
+								<th>部门描述</th>
+								<th>上级部门</th>
+								<th>#</th>
+							</tr>
+						</thead>
+						<tbody>
+							<#if (deptSplitPages)?? && (deptSplitPages.list)?size gt 0>
+								<#list deptSplitPages.list as dept>
+									<tr>
+										<td>${dept.deptId!}</td>
+										<td>${dept.deptFullName!}</td>
+										<td>${dept.deptSimpleName!}</td>
+										<td>${dept.description!}</td>
+										<td>${dept.parentName!}</td>
+										<td></td>
+									</tr>
+								</#list>
+							<#else>
+								<tr>
+									<td colspan="6" align="center">
+										没有数据
+									</td>
+								</tr>
+							</#if>
+						</tbody>
+						<#if (deptSplitPages)?? && (deptSplitPages.list)?size gt 0>
+							<tfoot>
+								<tr>
+									<td colspan="6" >
+										<@splitPage.splitPage pageCount=deptSplitPages.pages pageNo=deptSplitPages.pageNum formId="searchForm" recordCount=deptSplitPages.total />
+									</td>
+								</tr>
+							</tfoot>
+						</#if>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal inmodal fade" id="addDeptModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title">新增部门</h5>
+            </div>
+            <div class="modal-body">
+	           <form class="form-horizontal m-t" id="deptForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">部门全称：<span id="deptFullNameError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="deptFullName" name="deptFullName" class="form-control" type="text"
+                            	 placeholder="请输入部门全称" data-parsley-required="true"
+								 data-parsley-required-message="部门全称不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="部门全称不能超过50"
+								 data-parsley-errors-container="#deptFullNameError"
+                            >
+                           <!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请输入姓名</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">部门简称：<span id="deptSimpleNameError"></span></label>
+                        <div class="col-sm-8">
+                            <input id="deptSimpleName" name="deptSimpleName" class="form-control" type="text"
+                             	placeholder="请输入部门简称" data-parsley-required="true"
+								 data-parsley-required-message="部门简称不可为空"
+								 data-parsley-maxlength="50"
+								 data-parsley-maxlength-message="部门简称不能超过50" 
+								 data-parsley-errors-container="#deptSimpleNameError"
+							>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-sm-3 control-label">部门描述：<span id="descriptionError"></span></label>
+                        <div class="col-sm-8">
+                        <textarea class="form-control"
+								  name="description" rows="5"
+								  placeholder="输入部门描述"
+								  data-parsley-maxlength="1000"
+								  data-parsley-maxlength-message="部门描述不能超过1000字"
+								  data-parsley-required="true"
+								  data-parsley-required-message="部门描述不可为空"></textarea>
+							<!-- description -->
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                        <div class="form-group">
+                        <label class="col-sm-3 control-label">上级部门：<span id="parentDeptIdError"></span></label>
+                        <div class="col-sm-8">
+	                      	<select class="form-control" name="parentDeptId"
+	                      		placeholder="请选择上级部门"
+								data-parsley-required="true"
+								data-parsley-required-message="上级部门不可为空"
+							>
+	                        	<option value="">请选择上级部门</option>
+			                     <#if (depts)?? && depts?size gt 0>
+									<#list depts as dept>
+										 <option value="${dept.deptId!}">${dept.deptSimpleName!}</option>
+									</#list>
+								</#if>
+	                        </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal" id="closeModal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitFm()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 新增用户 -->
+</@frame.frame> 
+<@frame.script>
+<script>
+function submitFm(){
+	if($('#deptForm').parsley().validate()){
+		$.ajax({
+			cache: true,
+			type: "POST",
+			url:"${basePath}/dept/add",
+			data:$('#deptForm').serialize(),
+			async: true,
+			error: function(request) {
+				parent.layer.alert("服务器异常！");
+			},
+			success: function(data) {
+				if(data.success){
+					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
+					window.location.href=window.location.href;
+				} else{
+					parent.layer.alert('保存失败！');
+				}
+			}
+		});
+	///	$('#closeModal').click();
+	}
+} 
+</script>
+</@frame.script>
