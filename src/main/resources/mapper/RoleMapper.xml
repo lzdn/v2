@@ -107,4 +107,21 @@
     left join t_user_role_relation t3 on t3.role_id = t.role_id
     where 1 = 1 and t3.user_id =#{userId,jdbcType=INTEGER}
   </select>
+  
+  <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+	select
+		 <include refid="Base_Column_List" />
+	from t_role t
+	<where>
+		<if test="roleName != null">
+			and t.role_name like CONCAT('%', #{roleName},'%')
+		</if>
+	</where>
+	ORDER BY t.role_id
+	</select>
+	<select id="list"   resultMap="BaseResultMap">
+    select 
+     <include refid="Base_Column_List" />
+    from t_role t   ORDER BY t.role_id
+  </select>
 </mapper>

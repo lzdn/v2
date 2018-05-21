@@ -37,6 +37,7 @@
 								<th>姓名</th>
 								<th>性别</th>
 								<th>生日</th>
+								<th>角色</th>
 								<th>创建时间</th>
 								<th>#</th>
 							</tr>
@@ -50,13 +51,24 @@
 										<td>${user.username!}</td>
 										<td>${user.sex!}</td>
 										<td><#if (user.birthday)??>${user.birthday?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
+										<td>
+										<#assign roleId=''>
+											<#if (user.roles)?? && (user.roles)?size gt 0>
+												<#list user.roles as role>
+													${role.roleName!}
+													<#assign roleId=role.roleId>
+												</#list>
+											</#if>
+										</td>
 										<td><#if (user.createTime)??>${user.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
-										<td></td>
+										<td>
+											<a href="#roleModal" data-toggle="modal" class="btn btn-primary" onclick="doRole('${user.userId!}','${user.username!}','${roleId!}')">分配角色</a>
+										</td>
 									</tr>
 								</#list>
 							<#else>
 								<tr>
-									<td colspan="7" align="center">
+									<td colspan="8" align="center">
 										没有数据
 									</td>
 								</tr>
@@ -65,7 +77,7 @@
 						<#if (userSplitPages)?? && (userSplitPages.list)?size gt 0>
 							<tfoot>
 								<tr>
-									<td colspan="7" >
+									<td colspan="8" >
 										<@splitPage.splitPage pageCount=userSplitPages.pages pageNo=userSplitPages.pageNum formId="searchForm" recordCount=userSplitPages.total />
 									</td>
 								</tr>
@@ -170,10 +182,81 @@
     </div>
 </div>
 <!-- 新增用户 -->
+
+<!-- 分配权限 -->
+<div class="modal inmodal fade" id="roleModal" tabindex="-2" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h5 class="modal-title" id="toRole">分配角色</h5>
+            </div>
+            <div class="modal-body">
+	           <form class="form-horizontal m-t" id="roleForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">角色：</label>
+                        <div class="col-sm-8">
+                           <div class="radio">
+                           	    <#if (roles)?? && (roles)?size gt 0>
+									<#list roles as role>
+										 <label><input type="radio" value="${role.roleId!}"  name="roleId">${role.roleName!}</label>
+									</#list>
+								</#if>
+                           </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="uid" id="uid" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="submitRoleFm()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 分配权限 -->
 </@frame.frame> 
 <@frame.script>
 <script src="${basePath}/static/js/plugins/upload/fileinput.js"></script>
 <script>
+
+//分配角色
+function doRole(uid,name,roleId){
+	$('#uid').val(uid);
+	$('#toRole').html('为['+name+']分配角色');
+	$('input[name="roleId"]:checked').attr("checked",false); 
+	if(roleId!='') {
+		$("input[name='roleId'][value='"+roleId+"']").attr("checked",true);
+	} 
+	//$("input[name='roleId']").each(function(i,obj){
+	    //i,迭代的下标，从0开始  
+	    //obj,当前的对象(HTMLInputElement),可以使用obj.value格式获取属性值  
+	    //$(this);当前jQuery对象,可以使用$(this).val()获取属性值  
+	//});  
+}
+
+function submitRoleFm(){
+	$.ajax({
+		cache: true,
+		type: "POST",
+		url:"${basePath}/user/addRole",
+		data:$('#roleForm').serialize(),
+		async: true,
+		error: function(request) {
+			parent.layer.alert("服务器异常！");
+		},
+		success: function(data) {
+			if(data.success){
+				parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
+				window.location.href=window.location.href;
+			} else{
+				parent.layer.alert('保存失败！');
+			}
+		}
+	});
+}
+
 function submitFm(){
 	if($('#userForm').parsley().validate()){
 		$.ajax({

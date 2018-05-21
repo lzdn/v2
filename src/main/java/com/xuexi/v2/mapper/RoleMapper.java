@@ -1,9 +1,11 @@
 package com.xuexi.v2.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Role;
 
 public interface RoleMapper {
@@ -22,4 +24,8 @@ public interface RoleMapper {
     List<Role> findAll();
     
     List<Role> findByUserRole(@Param("userId") Integer userId);
+    
+    Page<Role> findPage(Map<String,Object> map);
+    
+    List<Role> list();
 }
