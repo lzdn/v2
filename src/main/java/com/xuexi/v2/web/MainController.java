@@ -41,6 +41,6 @@ public class MainController extends BaseController {
 			return null;
 		}
 		logger.info("进入HOME");
-		return "/home";
+		return "/homeV2";
 	}
 }

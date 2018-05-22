@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50716
 File Encoding         : 65001
 
-Date: 2018-05-21 01:01:27
+Date: 2018-05-22 23:32:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,7 +64,6 @@ CREATE TABLE `qrtz_cron_triggers` (
 -- ----------------------------
 -- Records of qrtz_cron_triggers
 -- ----------------------------
-INSERT INTO `qrtz_cron_triggers` VALUES ('SchedulerFactory', 'com.xuexi.v2.job.MyJob', 'abc', '0 0 0/1 * * ?', 'Asia/Shanghai');
 
 -- ----------------------------
 -- Table structure for qrtz_fired_triggers
@@ -112,7 +111,6 @@ CREATE TABLE `qrtz_job_details` (
 -- ----------------------------
 -- Records of qrtz_job_details
 -- ----------------------------
-INSERT INTO `qrtz_job_details` VALUES ('SchedulerFactory', 'my', 'abc', null, 'com.xuexi.v2.job.MyJob', '0', '0', '0', '0', 0xACED0005737200156F72672E71756172747A2E4A6F62446174614D61709FB083E8BFA9B0CB020000787200266F72672E71756172747A2E7574696C732E537472696E674B65794469727479466C61674D61708208E8C3FBC55D280200015A0013616C6C6F77735472616E7369656E74446174617872001D6F72672E71756172747A2E7574696C732E4469727479466C61674D617013E62EAD28760ACE0200025A000564697274794C00036D617074000F4C6A6176612F7574696C2F4D61703B787000737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F40000000000010770800000010000000007800);
 
 -- ----------------------------
 -- Table structure for qrtz_locks
@@ -235,7 +233,6 @@ CREATE TABLE `qrtz_triggers` (
 -- ----------------------------
 -- Records of qrtz_triggers
 -- ----------------------------
-INSERT INTO `qrtz_triggers` VALUES ('SchedulerFactory', 'com.xuexi.v2.job.MyJob', 'abc', 'my', 'abc', null, '1526835600000', '1526834086980', '5', 'WAITING', 'CRON', '1526826514000', '0', null, '0', '');
 
 -- ----------------------------
 -- Table structure for t_dept
@@ -293,7 +290,7 @@ CREATE TABLE `t_job_log` (
   `description` varchar(255) DEFAULT NULL COMMENT '任务执行描述',
   `excute_time` datetime DEFAULT NULL COMMENT '执行时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='任务日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='任务日志表';
 
 -- ----------------------------
 -- Records of t_job_log
@@ -308,6 +305,15 @@ INSERT INTO `t_job_log` VALUES ('7', 'MyJob', '执行任务：MyJob 成功', '20
 INSERT INTO `t_job_log` VALUES ('8', 'MyJob', '执行任务：MyJob 成功', '2018-05-20 22:44:31');
 INSERT INTO `t_job_log` VALUES ('9', 'MyJob', '执行任务：MyJob 成功', '2018-05-20 23:14:13');
 INSERT INTO `t_job_log` VALUES ('10', 'MyJob', '执行任务：MyJob 成功', '2018-05-21 00:34:47');
+INSERT INTO `t_job_log` VALUES ('11', 'MyJob', '执行任务：MyJob 成功', '2018-05-21 20:46:28');
+INSERT INTO `t_job_log` VALUES ('12', 'MyJob', '执行任务：MyJob 成功', '2018-05-21 21:00:00');
+INSERT INTO `t_job_log` VALUES ('13', 'MyJob', '执行任务：MyJob 成功', '2018-05-21 22:00:00');
+INSERT INTO `t_job_log` VALUES ('14', 'MyJob', '执行任务：MyJob 成功', '2018-05-21 23:23:04');
+INSERT INTO `t_job_log` VALUES ('15', 'MyJob', '执行任务：MyJob 成功', '2018-05-22 21:21:38');
+INSERT INTO `t_job_log` VALUES ('16', 'MyJob', '执行任务：MyJob 成功', '2018-05-22 22:21:48');
+INSERT INTO `t_job_log` VALUES ('17', 'MyJob', '执行任务：MyJob 成功', '2018-05-22 22:26:28');
+INSERT INTO `t_job_log` VALUES ('18', 'MyJob', '执行任务：MyJob 成功', '2018-05-22 22:26:34');
+INSERT INTO `t_job_log` VALUES ('19', 'MyJob', '执行任务：MyJob 成功', '2018-05-22 22:27:17');
 
 -- ----------------------------
 -- Table structure for t_menu
@@ -316,9 +322,10 @@ DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `menu_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `module_id` int(11) NOT NULL COMMENT '菜单组id',
+  `super_id` int(11) NOT NULL DEFAULT '0',
   `menu_name` varchar(255) NOT NULL COMMENT '菜单名称',
   `menu_code` varchar(255) DEFAULT NULL COMMENT '菜单代码',
-  `url` varchar(255) NOT NULL COMMENT 'url地址',
+  `url` varchar(255) DEFAULT NULL COMMENT 'url地址',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '级别',
   `description` varchar(255) DEFAULT NULL COMMENT '备注',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
@@ -329,17 +336,17 @@ CREATE TABLE `t_menu` (
 -- ----------------------------
 -- Records of t_menu
 -- ----------------------------
-INSERT INTO `t_menu` VALUES ('1', '2', '部门管理', '', '/dept/main', '0', '', '1', '1');
-INSERT INTO `t_menu` VALUES ('2', '2', '权限管理', '', '/right/main', '0', '', '1', '2');
-INSERT INTO `t_menu` VALUES ('3', '2', '模块管理', '', '/module/main', '0', '', '1', '4');
-INSERT INTO `t_menu` VALUES ('4', '2', '菜单管理', '', '/menu/main', '0', '', '1', '5');
-INSERT INTO `t_menu` VALUES ('5', '3', '产品列表', '', '/product/main', '0', '', '1', '1');
-INSERT INTO `t_menu` VALUES ('6', '2', '角色管理', '', '/role/main', '0', '', '1', '3');
-INSERT INTO `t_menu` VALUES ('7', '2', '用户管理', '', '/user/main', '0', '', '1', '6');
-INSERT INTO `t_menu` VALUES ('8', '3', '产品类别', '', '/kind/main', '0', '', '1', '2');
-INSERT INTO `t_menu` VALUES ('9', '3', '产品品牌', '', '/brand/main', '0', '', '1', '3');
-INSERT INTO `t_menu` VALUES ('10', '2', '系统字典', '', '/dict/main', '0', '', '1', '7');
-INSERT INTO `t_menu` VALUES ('11', '2', '任务管理', null, '/job/main', '0', null, '1', '999');
+INSERT INTO `t_menu` VALUES ('1', '2', '0', '部门管理', '', '/dept/main', '0', '', '1', '1');
+INSERT INTO `t_menu` VALUES ('2', '2', '0', '权限管理', '', '/right/main', '0', '', '1', '2');
+INSERT INTO `t_menu` VALUES ('3', '2', '0', '模块管理', '', '/module/main', '0', '', '1', '4');
+INSERT INTO `t_menu` VALUES ('4', '2', '0', '菜单管理', '', '/menu/main', '0', '', '1', '5');
+INSERT INTO `t_menu` VALUES ('5', '3', '0', '产品列表', '', '/product/main', '0', '', '1', '1');
+INSERT INTO `t_menu` VALUES ('6', '2', '0', '角色管理', '', '/role/main', '0', '', '1', '3');
+INSERT INTO `t_menu` VALUES ('7', '2', '0', '用户管理', '', '/user/main', '0', '', '1', '6');
+INSERT INTO `t_menu` VALUES ('8', '3', '0', '产品类别', '', '/kind/main', '0', '', '1', '2');
+INSERT INTO `t_menu` VALUES ('9', '3', '0', '产品品牌', '', '/brand/main', '0', '', '1', '3');
+INSERT INTO `t_menu` VALUES ('10', '2', '0', '系统字典', '', '/dict/main', '0', '', '1', '7');
+INSERT INTO `t_menu` VALUES ('11', '2', '0', '任务管理', null, '/job/main', '0', null, '1', '999');
 
 -- ----------------------------
 -- Table structure for t_module
@@ -347,7 +354,7 @@ INSERT INTO `t_menu` VALUES ('11', '2', '任务管理', null, '/job/main', '0', 
 DROP TABLE IF EXISTS `t_module`;
 CREATE TABLE `t_module` (
   `module_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键group_id',
-  `icon` varchar(255) NOT NULL COMMENT '图标',
+  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
   `module_name` varchar(255) NOT NULL COMMENT '组名称',
   `description` varchar(255) NOT NULL COMMENT '描述',
   `order_by` int(11) NOT NULL DEFAULT '999' COMMENT '排序',
@@ -402,7 +409,7 @@ CREATE TABLE `t_role` (
   `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
@@ -411,6 +418,7 @@ INSERT INTO `t_role` VALUES ('1', '超级管理员', '', '1');
 INSERT INTO `t_role` VALUES ('2', '管理员', '', '1');
 INSERT INTO `t_role` VALUES ('3', '普通会员', '', '1');
 INSERT INTO `t_role` VALUES ('4', '游客', '', '1');
+INSERT INTO `t_role` VALUES ('5', '测试', '测试', '1');
 
 -- ----------------------------
 -- Table structure for t_role_right_relation

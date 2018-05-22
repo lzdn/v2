@@ -52,17 +52,15 @@
 										<td>${user.sex!}</td>
 										<td><#if (user.birthday)??>${user.birthday?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
 										<td>
-										<#assign roleId=''>
 											<#if (user.roles)?? && (user.roles)?size gt 0>
 												<#list user.roles as role>
 													${role.roleName!}
-													<#assign roleId=role.roleId>
 												</#list>
 											</#if>
 										</td>
 										<td><#if (user.createTime)??>${user.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
 										<td>
-											<a href="#roleModal" data-toggle="modal" class="btn btn-primary" onclick="doRole('${user.userId!}','${user.username!}','${roleId!}')">分配角色</a>
+											<a href="#roleModal" data-toggle="modal" class="btn btn-primary" onclick="doRole('${user.userId!}','${user.username!}')">分配角色</a>
 										</td>
 									</tr>
 								</#list>
@@ -196,7 +194,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">角色：</label>
                         <div class="col-sm-8">
-                           <div class="radio">
+                           <div class="radio" id="">
                            	    <#if (roles)?? && (roles)?size gt 0>
 									<#list roles as role>
 										 <label><input type="radio" value="${role.roleId!}"  name="roleId">${role.roleName!}</label>
@@ -222,13 +220,13 @@
 <script>
 
 //分配角色
-function doRole(uid,name,roleId){
+function doRole(uid,name){
 	$('#uid').val(uid);
 	$('#toRole').html('为['+name+']分配角色');
-	$('input[name="roleId"]:checked').attr("checked",false); 
+	/* $('input[name="roleId"]:checked').attr("checked",false); 
 	if(roleId!='') {
 		$("input[name='roleId'][value='"+roleId+"']").attr("checked",true);
-	} 
+	} */ 
 	//$("input[name='roleId']").each(function(i,obj){
 	    //i,迭代的下标，从0开始  
 	    //obj,当前的对象(HTMLInputElement),可以使用obj.value格式获取属性值  
