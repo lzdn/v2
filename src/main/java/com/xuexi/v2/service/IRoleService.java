@@ -12,7 +12,7 @@ public interface IRoleService {
 
 	List<Role> list();
 
-	Role findRoleResource(Integer userId);
+	List<Role> findRoleResource(Integer userId);
 
 	Page<Role> findSplitPage(RoleDto roleDto);
 

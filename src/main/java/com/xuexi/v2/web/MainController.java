@@ -37,7 +37,7 @@ public class MainController extends BaseController {
 	public String welcome(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		SecurityUser user = super.getLoginUser();
 		if (user.getUserId() == null) {
-			super.redirect(response, "/login");
+			super.redirect(response, request.getContextPath()+"/login");
 			return null;
 		}
 		logger.info("进入HOME");

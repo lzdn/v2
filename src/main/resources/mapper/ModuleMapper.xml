@@ -178,6 +178,7 @@
 			LEFT JOIN t_resource t on t.module_id = m.module_id  
 			LEFT JOIN t_resource t4 on t4.parent_id = t.id
 			LEFT JOIN t_resource t5 on t5.parent_id = t4.id
+			where 1=1 and t.level = 0
 		order by m.module_id,t.id,t4.id,t5.id
   	</select>
 </mapper>

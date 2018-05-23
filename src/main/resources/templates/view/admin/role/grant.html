@@ -1,0 +1,115 @@
+<#global basePath=springMacroRequestContext.contextPath> 
+<#global version="1.0.0">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="shortcut icon" href="${basePath}/static/favicon.ico">
+<link href="${basePath}/static/css/bootstrap.min.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/font-awesome.min.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/animate.css" rel="stylesheet">
+<link href="${basePath}/static/css/style.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content  animated fadeInRight">
+	<form action="">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox ">
+					<div class="ibox-title">
+						<h5>资源</h5>
+					</div>
+					<div class="ibox-content">
+						<p class="m-b-lg">
+							<div class="alert alert-warning">资源分配请谨慎操作！</div>
+						</p>
+						<div class="dd" id="nestable2">
+							<ol class="dd-list">
+								<li class="dd-item" data-id="1">
+									<#if (modules)??&&modules?size gt 0>
+										<#list modules as module>
+											<div class="dd-handle">
+												<span class="label label-info"><#if (module.icon)??><i class="${module.icon!}"></i></#if></span>
+												${module.moduleName!} 
+											</div>
+											<#if (module.resources)?? && (module.resources)?size gt 0>
+												<ol class="dd-list">
+													<#list module.resources as resource>
+														<li class="dd-item">
+															<div class="dd-handle">
+																<span class="label label-info">
+																	<#if (resource.menuIcon)??><i class="${resource.menuIcon!}"></i></#if>
+																</span>
+																${resource.resourceValue!}
+															</div>
+															<#if (resource.children)?? && (resource.children)?size gt 0>
+																<ol class="dd-list">
+																	<#list resource.children as childrena>
+																		<li class="dd-item">
+																			<div class="dd-handle">
+																				<div class="checkbox checkbox-inline">
+											                                        <input type="checkbox" id="for${childrena.id!}" value="${childrena.id!}">
+											                                        <label for="for${childrena.id!}">${childrena.resourceValue!}</label>
+											                                    </div>
+																			</div>
+																			<#if (childrena.children)?? && (childrena.children)?size gt 0>
+																				<ol class="dd-list" id="sub${childrena.id!}">
+																					<#list childrena.children as childrenb>
+																						<li class="dd-item">
+																							<div class="dd-handle">
+															                                    <div class="checkbox checkbox-inline">
+															                                        <input type="checkbox" id="for${childrenb.id!}" value="${childrenb.id!}">
+															                                        <label for="for${childrenb.id!}">${childrenb.resourceValue!}</label>
+															                                    </div>
+																							</div>
+																						</li>
+																					</#list>
+																				</ol>
+																			</#if>
+																		</li>
+																	</#list>
+																</ol>
+															</#if>
+														</li>
+													</#list>
+												</ol>
+											</#if>
+										</#list>	
+									</#if>
+								</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="text-center">
+					<button type="button" class="btn btn-primary" onclick="submitFm()">授权</button>
+					<button type="button" class="btn btn-primary" onclick="parent.layer.closeAll()">取消</button>
+				</div>
+			</div>
+		</div>
+	</form>	
+	</div>
+<!-- 全局js -->
+<script src="${basePath}/static/js/jquery.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/bootstrap.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/plugins/iCheck/icheck.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/plugins/nestable/jquery.nestable.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/plugins/layer/layer.min.js?v=${version}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#nestable2').nestable({group: 1}).on('change', function(e){});
+        });
+        function submitFm(){
+        	parent.layer.closeAll();
+        }
+    </script>
+</body>
+</html>

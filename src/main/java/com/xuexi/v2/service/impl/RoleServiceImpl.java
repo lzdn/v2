@@ -27,7 +27,7 @@ public class RoleServiceImpl implements IRoleService {
 	}
 
 	@Override
-	public Role findRoleResource(Integer userId) {
+	public List<Role> findRoleResource(Integer userId) {
 		return roleMapper.findRoleResource(userId);
 	}
 

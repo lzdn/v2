@@ -144,13 +144,19 @@ function submitFm(){
 } 
 
 function doRight(id,name){
+	var path = "${basePath}/role/grant/"+id;
 	parent.layer.open({
 	    type: 2,
 	    title: '【'+name+'】分配资源',
 	    shadeClose: true,
 	    shade: 0.8,
-	    area: ['800px', '70%'],
-	    content: '${basePath}/role/allot' //iframe的url
+	    maxmin: true, //开启最大化最小化按钮
+	    area: ['900px', '80%'],
+	    content: path, //iframe的url
+	   // closeBtn: true,
+	    cancel: function(index){
+	     // alert(index)
+	    }
 	});
 }
 </script>

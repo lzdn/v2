@@ -106,10 +106,6 @@
 	order by t2.role_id,t.id 
   </select>
   
-  <select id="list" resultMap="BaseResultMap">
-    	select  <include refid="Base_Column_List" /> from t_role t   ORDER BY t.role_id
-  	</select>
-  
   <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
 	select
 		 <include refid="Base_Column_List" />
