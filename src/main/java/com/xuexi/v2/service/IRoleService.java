@@ -8,12 +8,12 @@ import com.xuexi.v2.domain.dto.RoleDto;
 
 public interface IRoleService {
 
-	List<Role> findByUserRole(Integer userId);
-	
-	Page<Role> findSplitPage(RoleDto roleDto);
-	
 	int add(Role role);
-	
+
 	List<Role> list();
+
+	Role findRoleResource(Integer userId);
+
+	Page<Role> findSplitPage(RoleDto roleDto);
 
 }

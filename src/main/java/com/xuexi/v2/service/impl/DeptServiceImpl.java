@@ -22,6 +22,16 @@ public class DeptServiceImpl implements IDeptService {
 	private DeptMapper deptMapper;
 
 	@Override
+	public List<Dept> list() {
+		return deptMapper.list();
+	}
+
+	@Override
+	public int add(Dept dept) {
+		return deptMapper.insertSelective(dept);
+	}
+
+	@Override
 	public Page<Dept> findSplitPage(DeptDto deptDto) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (deptDto != null) {
@@ -32,16 +42,6 @@ public class DeptServiceImpl implements IDeptService {
 		PageHelper.startPage(deptDto.getPageNo(), deptDto.getPageSize());
 		Page<Dept> page = deptMapper.findPage(map);
 		return page;
-	}
-
-	@Override
-	public List<Dept> list() {
-		return deptMapper.list();
-	}
-
-	@Override
-	public int add(Dept dept) {
-		return deptMapper.insertSelective(dept);
 	}
 
 }

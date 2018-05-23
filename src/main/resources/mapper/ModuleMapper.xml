@@ -1,133 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xuexi.v2.mapper.ModuleMapper">
-  <resultMap id="BaseResultMap" type="com.xuexi.v2.domain.Module">
-    <id column="module_id" jdbcType="INTEGER" property="moduleId" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    module_id, icon, module_name, description, order_by, status
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_module
-    where module_id = #{moduleId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_module
-    where module_id = #{moduleId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.xuexi.v2.domain.Module">
-    insert into t_module (module_id, icon, module_name, 
-      description, order_by, status
-      )
-    values (#{moduleId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.xuexi.v2.domain.Module">
-    insert into t_module
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="moduleId != null">
-        module_id,
-      </if>
-      <if test="icon != null">
-        icon,
-      </if>
-      <if test="moduleName != null">
-        module_name,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="orderBy != null">
-        order_by,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="moduleId != null">
-        #{moduleId,jdbcType=INTEGER},
-      </if>
-      <if test="icon != null">
-        #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="moduleName != null">
-        #{moduleName,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="orderBy != null">
-        #{orderBy,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xuexi.v2.domain.Module">
-    update t_module
-    <set>
-      <if test="icon != null">
-        icon = #{icon,jdbcType=VARCHAR},
-      </if>
-      <if test="moduleName != null">
-        module_name = #{moduleName,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="orderBy != null">
-        order_by = #{orderBy,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
-      </if>
-    </set>
-    where module_id = #{moduleId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xuexi.v2.domain.Module">
-    update t_module
-    set icon = #{icon,jdbcType=VARCHAR},
-      module_name = #{moduleName,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      order_by = #{orderBy,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
-    where module_id = #{moduleId,jdbcType=INTEGER}
-  </update>
-  
-    <resultMap id="userModuleResult" type="com.xuexi.v2.domain.Module" extends="BaseResultMap">
-		<collection property="menus" ofType="com.xuexi.v2.domain.Menu">
-			<id column="menu_id" jdbcType="INTEGER" property="menuId" />
-		    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
-		    <result column="menu_code" jdbcType="VARCHAR" property="menuCode" />
-		    <result column="url" jdbcType="VARCHAR" property="url" />
-		    <result column="level" jdbcType="INTEGER" property="level" />
-		</collection>
+	<resultMap id="BaseResultMap" type="com.xuexi.v2.domain.Module">
+		<id column="module_id" jdbcType="INTEGER" property="moduleId" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="order_by" jdbcType="INTEGER" property="orderBy" />
+		<result column="status" jdbcType="INTEGER" property="status" />
 	</resultMap>
-  
-  <select id="findByUserModules" parameterType="java.lang.Integer"  resultMap="userModuleResult">
-  	select t.module_id, t.icon, t.module_name,t1.menu_id,t1.menu_name, t1.menu_code,t1.url 
-  	from t_module t 
-  	left join t_menu t1 on t1.module_id = t.module_id
-  	left join t_right t2 on t2.menu_id = t1.menu_id
-  	left join t_role_right_relation t3 on t3.right_id = t2.right_id
-  	left join t_user_role_relation t4 on t4.role_id = t3.role_id
-  	where 1 = 1 and t1.level = 0 and t4.user_id =#{userId,jdbcType=INTEGER}
-  	order by t.order_by,t1.order_by
-  </select>
-  
-  	<select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+	<sql id="Base_Column_List">
+		module_id, icon, module_name, description, order_by, status
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
 		select
-		 <include refid="Base_Column_List" />
+		<include refid="Base_Column_List" />
+		from t_module
+		where module_id = #{moduleId,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_module
+		where module_id = #{moduleId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.xuexi.v2.domain.Module">
+		insert into t_module (module_id, icon, module_name,
+		description, order_by, status
+		)
+		values (#{moduleId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
+		#{moduleName,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.xuexi.v2.domain.Module">
+		insert into t_module
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="moduleId != null">
+				module_id,
+			</if>
+			<if test="icon != null">
+				icon,
+			</if>
+			<if test="moduleName != null">
+				module_name,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="orderBy != null">
+				order_by,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="moduleId != null">
+				#{moduleId,jdbcType=INTEGER},
+			</if>
+			<if test="icon != null">
+				#{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleName != null">
+				#{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orderBy != null">
+				#{orderBy,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.xuexi.v2.domain.Module">
+		update t_module
+		<set>
+			<if test="icon != null">
+				icon = #{icon,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleName != null">
+				module_name = #{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="orderBy != null">
+				order_by = #{orderBy,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where module_id = #{moduleId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.xuexi.v2.domain.Module">
+		update t_module
+		set icon = #{icon,jdbcType=VARCHAR},
+		module_name = #{moduleName,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		order_by = #{orderBy,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER}
+		where module_id = #{moduleId,jdbcType=INTEGER}
+	</update>
+
+	<select id="getModules" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_module t ORDER BY t.module_id
+	</select>
+
+	<select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
 		from t_module t
 		<where>
 			<if test="moduleName != null">
@@ -136,4 +123,61 @@
 		</where>
 		ORDER BY t.module_id
 	</select>
+	
+	
+	<resultMap id="ModuleRoleResourcesResult" type="com.xuexi.v2.domain.Module" extends="BaseResultMap">
+		 <collection property="resources" ofType="com.xuexi.v2.domain.Resource">
+		  	<id column="id" jdbcType="INTEGER" property="id" />
+		    <result column="resource_key" jdbcType="VARCHAR" property="resourceKey" />
+		    <result column="resource_value" jdbcType="VARCHAR" property="resourceValue" />
+		    <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
+		    <result column="url" jdbcType="VARCHAR" property="url" />
+		    <result column="available" jdbcType="BIT" property="available" />
+		    <result column="type" jdbcType="INTEGER" property="type" />
+		    <result column="is_check" jdbcType="VARCHAR" property="isCheck" />
+		    <collection property="children" ofType="com.xuexi.v2.domain.Resource">
+				<id column="sub_id" jdbcType="INTEGER" property="id" />
+			    <result column="sub_resource_key" jdbcType="VARCHAR" property="resourceKey" />
+			    <result column="sub_resource_value" jdbcType="VARCHAR" property="resourceValue" />
+			    <result column="sub_menu_icon" jdbcType="VARCHAR" property="menuIcon" />
+			    <result column="sub_url" jdbcType="VARCHAR" property="url" />
+			    <result column="sub_available" jdbcType="BIT" property="available" />
+			    <result column="sub_type" jdbcType="INTEGER" property="type" />
+			    <result column="sub_is_check" jdbcType="VARCHAR" property="isCheck" />
+			    <collection property="children" ofType="com.xuexi.v2.domain.Resource">
+					<id column="children_id" jdbcType="INTEGER" property="id" />
+				    <result column="children_resource_key" jdbcType="VARCHAR" property="resourceKey" />
+				    <result column="children_resource_value" jdbcType="VARCHAR" property="resourceValue" />
+				    <result column="children_menu_icon" jdbcType="VARCHAR" property="menuIcon" />
+				    <result column="children_url" jdbcType="VARCHAR" property="url" />
+				    <result column="children_available" jdbcType="BIT" property="available" />
+				    <result column="children_type" jdbcType="INTEGER" property="type" />
+				    <result column="children_is_check" jdbcType="VARCHAR" property="isCheck" />
+				</collection>
+			</collection>
+		 </collection>
+	</resultMap>
+ 
+  	<select id="findModuleRoleResource" resultMap="ModuleRoleResourcesResult" parameterType="Map">
+		SELECT 
+			m.module_id, m.module_name,m.description, m.order_by, m.status,
+			t.id,t.resource_key,t.resource_value,t.url,t.menu_icon,t.type,t.available,
+			
+			t4.id as sub_id,t4.resource_key as sub_resource_key,t4.resource_value as sub_resource_value,
+			t4.url as sub_url,t4.menu_icon as sub_menu_icon,t4.type as sub_type,t4.available as sub_available,
+			
+			t5.id as children_id,t5.resource_key as children_resource_key,t5.resource_value as children_resource_value,
+			t5.url as children_url,t5.menu_icon as children_menu_icon,t5.type as children_type,t5.available as children_available,
+			
+			
+			( select a.resource_id from t_role_resource_relation a where a.resource_id = t.id and a.role_id = #{roleId} ) as is_check,
+			( select a.resource_id from t_role_resource_relation a where a.resource_id = t4.id and a.role_id = #{roleId} ) as sub_is_check,
+			( select a.resource_id from t_role_resource_relation a where a.resource_id = t5.id and a.role_id = #{roleId} ) as children_is_check
+			
+			from t_module m 
+			LEFT JOIN t_resource t on t.module_id = m.module_id  
+			LEFT JOIN t_resource t4 on t4.parent_id = t.id
+			LEFT JOIN t_resource t5 on t5.parent_id = t4.id
+		order by m.module_id,t.id,t4.id,t5.id
+  	</select>
 </mapper>

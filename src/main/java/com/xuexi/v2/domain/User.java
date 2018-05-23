@@ -34,7 +34,7 @@ public class User {
 
 	private Date lastLoginTime;
 
-	private List<Role> roles;
+	private Role role;
 
 	private List<Module> modules;
 
@@ -158,12 +158,12 @@ public class User {
 		this.lastLoginTime = lastLoginTime;
 	}
 
-	public List<Role> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoles(List<Role> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public List<Module> getModules() {
@@ -173,4 +173,5 @@ public class User {
 	public void setModules(List<Module> modules) {
 		this.modules = modules;
 	}
+
 }

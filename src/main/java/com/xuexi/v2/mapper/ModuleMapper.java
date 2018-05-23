@@ -9,19 +9,21 @@ import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Module;
 
 public interface ModuleMapper {
-    int deleteByPrimaryKey(Integer moduleId);
+	int deleteByPrimaryKey(Integer moduleId);
 
-    int insert(Module record);
+	int insert(Module record);
 
-    int insertSelective(Module record);
+	int insertSelective(Module record);
 
-    Module selectByPrimaryKey(Integer moduleId);
+	Module selectByPrimaryKey(Integer moduleId);
 
-    int updateByPrimaryKeySelective(Module record);
+	int updateByPrimaryKeySelective(Module record);
 
-    int updateByPrimaryKey(Module record);
-    
-    List<Module> findByUserModules(@Param("userId") Integer userId);
-    
-    Page<Module> findPage(Map<String,Object> map);
+	int updateByPrimaryKey(Module record);
+
+	List<Module> getModules();
+
+	Page<Module> findPage(Map<String, Object> map);
+	
+	List<Module> findModuleRoleResource(@Param("roleId") Integer roleId);
 }

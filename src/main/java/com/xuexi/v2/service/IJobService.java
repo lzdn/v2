@@ -7,10 +7,10 @@ import com.xuexi.v2.domain.dto.JobDto;
 
 public interface IJobService {
 
-	PageInfo<Job> findAll(JobDto job);
+	void printMsg();
 
 	void addLog(JobLog log);
-	
-	void printMsg();
+
+	PageInfo<Job> findAll(JobDto job);
 
 }

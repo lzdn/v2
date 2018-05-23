@@ -1,5 +1,6 @@
 package com.xuexi.v2.security;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import com.xuexi.v2.service.IUserService;
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired // 业务服务类
+	@Autowired 
 	private IUserService userService;
 
 	@Autowired
@@ -26,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private IModuleService moduleService;
-
+	
 	@Override
 	public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
 		// SysUser对应数据库中的用户表，是最终存储用户和密码的表，可自定义
@@ -35,12 +36,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("帐户： " + account + " 不存在");
 		}
-		List<Role> roles = roleService.findByUserRole(user.getUserId());
-		user.setRoles(roles);
-
-		List<Module> modules = moduleService.findByUserModules(user.getUserId());
+		Role role = roleService.findRoleResource(user.getUserId());
+		List<Module> modules = moduleService.findModuleRoleResource(role.getRoleId());
 		user.setModules(modules);
-
+		user.setRole(role);
 		SecurityUser seu = new SecurityUser(user);
 		return seu;
 	}

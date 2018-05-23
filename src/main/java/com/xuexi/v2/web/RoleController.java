@@ -48,4 +48,9 @@ public class RoleController extends BaseController {
 		map.put("success", true);
 		return map;
 	}
+	
+	@RequestMapping(value = "/allot", method = RequestMethod.GET)
+	public String allot(HttpServletResponse response, Model model) {
+		return "admin/role/allot";
+	}
 }

@@ -1,6 +1,5 @@
 package com.xuexi.v2.mapper;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -21,11 +20,8 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
     
-    List<Role> findAll();
-    
-    List<Role> findByUserRole(@Param("userId") Integer userId);
-    
     Page<Role> findPage(Map<String,Object> map);
     
-    List<Role> list();
+    Role findRoleResource(@Param("userId") Integer userId);
+    
 }

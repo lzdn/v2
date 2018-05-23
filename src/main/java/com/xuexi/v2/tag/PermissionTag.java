@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import com.xuexi.v2.domain.Right;
-import com.xuexi.v2.domain.Role;
+import com.xuexi.v2.domain.Resource;
 import com.xuexi.v2.security.SecurityUser;
 
 import freemarker.core.Environment;
@@ -46,17 +45,14 @@ public abstract class PermissionTag extends SecureTag {
 
 	protected boolean isPermitted(String p) {
 		SecurityUser user = getSecurityUser();
-		if (!CollectionUtils.isEmpty(user.getRoles())) {
-			List<Role> roles = user.getRoles();
-			for (Role role : roles) {
-				List<Right> rights = role.getRights();
-				for (Right right : rights) {
-					if (p.equals(right.getRightUrl()))
-						return true;
-				}
+		if (user.getRole()!=null&&user.getRole().getResources()!=null) {
+			List<Resource> resources = user.getRole().getResources();
+			for (Resource resource : resources) {
+				if (StringUtils.isNotEmpty(resource.getUrl())
+						&&p.equals(resource.getUrl()))
+					return true;
 			}
 		}
-
 		return false;
 	}
 

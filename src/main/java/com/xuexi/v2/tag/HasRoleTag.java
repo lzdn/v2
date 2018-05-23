@@ -1,10 +1,5 @@
 package com.xuexi.v2.tag;
 
-import java.util.List;
-
-import org.springframework.util.CollectionUtils;
-
-import com.xuexi.v2.domain.Role;
 import com.xuexi.v2.security.SecurityUser;
 
 /**
@@ -16,13 +11,8 @@ public class HasRoleTag extends RoleTag {
 
 	protected boolean showTagBody(String roleName) {
 		SecurityUser user = getSecurityUser();
-		if (!CollectionUtils.isEmpty(user.getRoles())) {
-			List<Role> roles = user.getRoles();
-			for (Role role : roles) {
-				if (roleName.equals(role.getRoleName()))
-					return true;
-			}
-		}
+		if (user.getRole() != null && roleName.equals(user.getRole().getRoleName()))
+			return true;
 		return false;
 	}
 }

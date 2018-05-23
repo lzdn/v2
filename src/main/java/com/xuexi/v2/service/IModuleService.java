@@ -8,9 +8,12 @@ import com.xuexi.v2.domain.dto.ModuleDto;
 
 public interface IModuleService {
 
-	List<Module> findByUserModules(Integer userId);
+	int add(ModuleDto moduleDto);
+
+	List<Module> getModules();
 
 	Page<Module> findSplitPage(ModuleDto moduleDto);
 
-	int add(ModuleDto moduleDto);
+	List<Module> findModuleRoleResource(Integer roleId);
+
 }

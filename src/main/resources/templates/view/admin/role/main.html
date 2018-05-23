@@ -39,11 +39,11 @@
 										<td>${role.roleName!}</td>
 										<td>${role.description!}</td>
 										<td>
-											<#if role.status == 1>有效</#if>
-											<#if role.status == 0>无效</#if>
+											<#if role.status == 1> <span class="label label-success">有效</span></#if>
+											<#if role.status == 0><span class="badge badge-danger">无效 </span></#if>
 										</td>
 										<td>
-											<a href="javascript:void(0)" class="btn btn-primary" onclick="doRight('${role.roleId!}')">分配权限</a>
+											<a href="javascript:void(0)" class="btn btn-primary" onclick="doRight('${role.roleId!}','${role.roleName!}')">分配资源</a>
 										</td>
 									</tr>
 								</#list>
@@ -142,5 +142,16 @@ function submitFm(){
 		});
 	}
 } 
+
+function doRight(id,name){
+	parent.layer.open({
+	    type: 2,
+	    title: '【'+name+'】分配资源',
+	    shadeClose: true,
+	    shade: 0.8,
+	    area: ['800px', '70%'],
+	    content: '${basePath}/role/allot' //iframe的url
+	});
+}
 </script>
 </@frame.script>

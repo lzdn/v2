@@ -27,6 +27,16 @@ public class JobServiceImpl implements IJobService {
 	private JobLogMapper jobLogMapper;
 
 	@Override
+	public void addLog(JobLog log) {
+		jobLogMapper.insertSelective(log);
+	}
+
+	@Override
+	public void printMsg() {
+		System.out.println("Hello");
+	}
+
+	@Override
 	public PageInfo<Job> findAll(JobDto job) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (job != null) {
@@ -37,17 +47,6 @@ public class JobServiceImpl implements IJobService {
 		PageHelper.startPage(job.getPageNo(), job.getPageSize());
 		Page<Job> page = jobMapper.findPage(map);
 		return page.toPageInfo();
-	}
-
-	@Override
-	public void addLog(JobLog log) {
-		jobLogMapper.insertSelective(log);
-	}
-
-	@Override
-	public void printMsg() {
-		System.out.println("Hello");
-
 	}
 
 }

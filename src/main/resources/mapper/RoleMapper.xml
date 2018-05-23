@@ -80,33 +80,35 @@
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
   
-  <resultMap id="roleRightResult" type="com.xuexi.v2.domain.Role" extends="BaseResultMap">
-		<collection property="rights" ofType="com.xuexi.v2.domain.Right">
-			<id column="right_id" jdbcType="INTEGER" property="rightId" />
-		    <result column="right_url" jdbcType="VARCHAR" property="rightUrl" />
-		    <result column="upper_right_id" jdbcType="INTEGER" property="upperRightId" />
-		    <result column="right_name" jdbcType="VARCHAR" property="rightName" />
-		    <result column="menu_id" jdbcType="INTEGER" property="menuId" />
+  <resultMap id="RoleResourceResult" type="com.xuexi.v2.domain.Role" extends="BaseResultMap">
+		<collection property="resources" ofType="com.xuexi.v2.domain.Resource">
+			<id column="id" jdbcType="INTEGER" property="id" />
+		    <result column="resource_key" jdbcType="VARCHAR" property="resourceKey" />
+		    <result column="resource_value" jdbcType="VARCHAR" property="resourceValue" />
+		    <result column="url" jdbcType="VARCHAR" property="url" />
+		    <result column="available" jdbcType="BIT" property="available" />
+		    <result column="type" jdbcType="INTEGER" property="type" />
 		</collection>
-	</resultMap>
+  </resultMap>
+  <select id="findRoleResource" parameterType="Map" resultMap="RoleResourceResult">
+   	SELECT 
+   	 	t2.role_id, t2.role_name, t2.description,t2.status,
+		t.id,t.resource_key,t.resource_value,t.url,t.menu_icon,t.module_id,t.type,t.available  
+		from t_resource t
+		LEFT JOIN t_role_resource_relation t1 on t1.resource_id = t.id
+		LEFT JOIN t_role t2 on t2.role_id = t1.role_id
+		LEFT JOIN t_user_role_relation t3 on t3.role_id = t2.role_id 
+	<where>
+		<if test="userId != null">
+			and t3.user_id = #{userId}
+		</if>
+	</where>
+	order by t2.role_id,t.id 
+  </select>
   
-   <select id="findAll"   resultMap="roleRightResult">
-    select 
-    t.role_id, t.role_name, t.description,t.status,t2.right_id,t2.right_url,t2.upper_right_id,t2.right_name,t2.menu_id
-    from t_role t 
-    left join t_role_right_relation t1 on t1.role_id = t.role_id
-    left join t_right t2 on t2.right_id = t1.right_id
-    where 1 = 1
-  </select>
-  <select id="findByUserRole" parameterType="java.lang.Integer"  resultMap="roleRightResult">
-    select 
-    t.role_id, t.role_name, t.description,t.status,t2.right_id,t2.right_url,t2.upper_right_id,t2.right_name,t2.menu_id
-    from t_role t 
-    left join t_role_right_relation t1 on t1.role_id = t.role_id
-    left join t_right t2 on t2.right_id = t1.right_id
-    left join t_user_role_relation t3 on t3.role_id = t.role_id
-    where 1 = 1 and t3.user_id =#{userId,jdbcType=INTEGER}
-  </select>
+  <select id="list" resultMap="BaseResultMap">
+    	select  <include refid="Base_Column_List" /> from t_role t   ORDER BY t.role_id
+  	</select>
   
   <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
 	select
@@ -118,10 +120,5 @@
 		</if>
 	</where>
 	ORDER BY t.role_id
-	</select>
-	<select id="list"   resultMap="BaseResultMap">
-    select 
-     <include refid="Base_Column_List" />
-    from t_role t   ORDER BY t.role_id
   </select>
 </mapper>

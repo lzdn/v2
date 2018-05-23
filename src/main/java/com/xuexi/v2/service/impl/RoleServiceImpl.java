@@ -22,8 +22,19 @@ public class RoleServiceImpl implements IRoleService {
 	private RoleMapper roleMapper;
 
 	@Override
-	public List<Role> findByUserRole(Integer userId) {
-		return roleMapper.findByUserRole(userId);
+	public int add(Role role) {
+		return roleMapper.insertSelective(role);
+	}
+
+	@Override
+	public Role findRoleResource(Integer userId) {
+		return roleMapper.findRoleResource(userId);
+	}
+
+	@Override
+	public List<Role> list() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		return roleMapper.findPage(map);
 	}
 
 	@Override
@@ -39,14 +50,6 @@ public class RoleServiceImpl implements IRoleService {
 		return page;
 	}
 
-	@Override
-	public int add(Role role) {
-		return roleMapper.insertSelective(role);
-	}
 
-	@Override
-	public List<Role> list() {
-		return roleMapper.list();
-	}
 
 }

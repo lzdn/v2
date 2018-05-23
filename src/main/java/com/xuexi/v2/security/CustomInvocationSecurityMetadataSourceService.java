@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.xuexi.v2.domain.Right;
+import com.xuexi.v2.domain.Resource;
 import com.xuexi.v2.domain.Role;
 import com.xuexi.v2.mapper.RoleMapper;
 
@@ -44,27 +44,29 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 		defaultAtts.add(defaultRole);
 		resourceMap.put("default_error", defaultAtts);*/
 		
-		List<Role> roles = roleMapper.findAll();// 查询出所有角色
-		if (!CollectionUtils.isEmpty(roles)) {
-			for (Role role : roles) {
-				ConfigAttribute ca = new SecurityConfig(role.getRoleName());
-				if (!CollectionUtils.isEmpty(role.getRights())) {
-					for (Right right : role.getRights()) {
+		Role role = roleMapper.findRoleResource(null);// 查询出所有角色和权限集合
+		if(role!=null) {
+			ConfigAttribute ca = new SecurityConfig(role.getRoleName());
+			if (!CollectionUtils.isEmpty(role.getResources())) {
+				for (Resource resource : role.getResources()) {
+					if(StringUtils.isNotEmpty(resource.getUrl())) {
 						/*
 						 * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，将权限增加到权限集合中。
 						 */
-						if (resourceMap.containsKey(right.getRightUrl())) {
-							Collection<ConfigAttribute> value = resourceMap.get(right.getRightUrl());
+						if (resourceMap.containsKey(resource.getUrl())) {
+							Collection<ConfigAttribute> value = resourceMap.get(resource.getUrl());
 							value.add(ca);
-							resourceMap.put(right.getRightUrl(), value);
+							resourceMap.put(resource.getUrl(), value);
 						} else {
 							Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
 							atts.add(ca);
-							resourceMap.put(right.getRightUrl(), atts);
+							resourceMap.put(resource.getUrl(), atts);
 						}
 					}
 				}
 			}
+		
+			
 		}
 
 	}

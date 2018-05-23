@@ -22,20 +22,18 @@ public class ModuleServiceImpl implements IModuleService {
 	private ModuleMapper moduleMapper;
 
 	@Override
-	public List<Module> findByUserModules(Integer userId) {
+	public List<Module> getModules() {
+		return moduleMapper.getModules();
+	}
 
-		List<Module> modules = moduleMapper.findByUserModules(userId);
-		/*
-		 * for (Module module : modules)
-		 *  { 
-		 *  List<Menu> menus = module.getMenus(); 
-		 *  for
-		 * (Menu menu : menus) { menu.setChildren(menus); 
-		 * } 
-		 * }
-		 */
+	@Override
+	public int add(ModuleDto moduleDto) {
+		return moduleMapper.insertSelective(moduleDto);
+	}
 
-		return modules;
+	@Override
+	public List<Module> findModuleRoleResource(Integer roleId) {
+		return moduleMapper.findModuleRoleResource(roleId);
 	}
 
 	@Override
@@ -49,11 +47,6 @@ public class ModuleServiceImpl implements IModuleService {
 		PageHelper.startPage(moduleDto.getPageNo(), moduleDto.getPageSize());
 		Page<Module> page = moduleMapper.findPage(map);
 		return page;
-	}
-
-	@Override
-	public int add(ModuleDto moduleDto) {
-		return moduleMapper.insertSelective(moduleDto);
 	}
 
 }
