@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2018-05-23 16:27:01
+Date: 2018-05-23 21:40:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -259,7 +259,7 @@ CREATE TABLE `t_resource` (
   `menu_icon` varchar(128) DEFAULT NULL,
   `order_by` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_role
