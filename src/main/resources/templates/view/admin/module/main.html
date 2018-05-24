@@ -38,11 +38,10 @@
 									<tr>
 										<td>${module.moduleId!}</td>
 										<td>${module.moduleName!}</td>
-										<td>${module.icon!}</td>
+										<td><span class="label label-info"><i class="${module.icon!}"></i></span>${module.icon!}</td>
 										<td>${module.description!}</td>
 										<td>
-											<#if module.status == 1>有效</#if>
-											<#if module.status == 0>无效</#if>
+											<#if module.status == 1><span class="label label-info">有效</span><#else><span class="label label-warning">无效</span></#if>
 										</td>
 										<td></td>
 									</tr>
@@ -123,11 +122,11 @@
                         <div class="col-sm-8">
                         <textarea class="form-control"
 								  name="description" rows="5"
-								  placeholder="输入部门描述"
+								  placeholder="输入模块描述"
 								  data-parsley-maxlength="1000"
-								  data-parsley-maxlength-message="部门描述不能超过1000字"
+								  data-parsley-maxlength-message="模块描述不能超过1000字"
 								  data-parsley-required="true"
-								  data-parsley-required-message="部门描述不可为空"></textarea>
+								  data-parsley-required-message="模块描述不可为空"></textarea>
 							<!-- description -->
 							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
                         </div>

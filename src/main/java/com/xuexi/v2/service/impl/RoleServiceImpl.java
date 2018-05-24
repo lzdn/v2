@@ -25,6 +25,7 @@ public class RoleServiceImpl implements IRoleService {
 	private RoleMapper roleMapper;
 
 	@Override
+	@Transactional(value = "myTransactionManager")
 	public int add(Role role) {
 		return roleMapper.insertSelective(role);
 	}

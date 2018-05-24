@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +28,7 @@ public class JobServiceImpl implements IJobService {
 	private JobLogMapper jobLogMapper;
 
 	@Override
+	@Transactional(value = "myTransactionManager")
 	public void addLog(JobLog log) {
 		jobLogMapper.insertSelective(log);
 	}

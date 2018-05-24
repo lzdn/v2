@@ -29,6 +29,9 @@
     delete from t_resource
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByResourceId" parameterType="java.lang.Integer">
+    delete from t_role_resource_relation where resource_id = #{resourceId,jdbcType=INTEGER}
+  </delete>
   <insert id="insert" parameterType="com.xuexi.v2.domain.Resource">
     insert into t_resource (id, resource_key, resource_value, 
       url, parent_id, parent_ids, 
@@ -196,8 +199,19 @@
 			<if test="type != null">
 				and t.type  = #{type}
 			</if>
+			<if test="level != null">
+				and t.level = #{level}
+			</if>
 		</where>
-		ORDER BY t.order_by
+		ORDER BY t.id
   </select>
  
+ <select id="findAll" parameterType="Map" resultMap="BaseResultMap">
+   	select 
+	t.id, t.resource_key, t.resource_value, t.url,t.parent_id,t.module_id, t.level, t.available, 
+   	t.type, t.menu_icon, t.order_by
+	from t_resource t  
+	ORDER BY t.order_by
+  </select>
+  
 </mapper>

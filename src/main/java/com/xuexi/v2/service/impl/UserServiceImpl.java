@@ -34,25 +34,25 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public Page<User> findSplitPage(UserDto userDto) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
 
-		if(userDto!=null) {
-			if(userDto.getUserId()!=null) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (userDto != null) {
+			if (userDto.getUserId() != null) {
 				map.put("userId", userDto.getUserId());
 			}
-			if(StringUtils.isNotEmpty(userDto.getUsername())) {
+			if (StringUtils.isNotEmpty(userDto.getUsername())) {
 				map.put("username", userDto.getUsername());
 			}
-			if(StringUtils.isNotEmpty(userDto.getAccount())) {
+			if (StringUtils.isNotEmpty(userDto.getAccount())) {
 				map.put("account", userDto.getAccount());
 			}
 		}
-		
+
 		PageHelper.startPage(userDto.getPageNo(), userDto.getPageSize());
-		
+
 		Page<User> pageInfo = userMapper.findPage(map);
-		
+
 		return pageInfo;
 	}
 

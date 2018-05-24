@@ -1,6 +1,8 @@
 <#import "/frameV2.html" as frame />
 <#import "/splitPage.html" as splitPage />
-<@frame.frame csss=["plugins/pager/pager.css"] scripts=[] locations=["资源管理","资源列表"]>
+<@frame.frame csss=["plugins/pager/pager.css"] scripts=[]
+locations=["资源管理","资源列表"]>
+
 <div class="wrapper wrapper-content  animated fadeInRight">
 	<div class="row">
 		<div class="col-sm-12">
@@ -10,27 +12,34 @@
 				</div> -->
 				<div class="ibox-content">
 					<div class="ibox-dowith">
-                         <a  href="#addResourceModal" class="btn btn-primary" data-toggle="modal">新增资源</a>
+                         <a href="#addResourceModal"
+							class="btn btn-primary" data-toggle="modal">新增资源</a>
                      </div>
                      <div class="ibox-form">
                      	<form id="searchForm" class="form-inline">
                      		<div class="form-group">
 	                             <label class="control-label">资源ID</label>
-	                             <input type="text" name="id" placeholder="请输入资源ID" class="form-control" value="${resourceDto.id!}">
+	                             <input type="text" name="id"
+									placeholder="请输入资源ID" class="form-control"
+									value="${resourceDto.id!}">
 	                         </div>
 	                         <div class="form-group">
 	                             <label class="control-label">资源名称</label>
-	                             <input type="text" name="resourceValue" placeholder="请输入资源名称" class="form-control" value="${resourceDto.resourceValue!}">
+	                             <input type="text" name="resourceValue"
+									placeholder="请输入资源名称" class="form-control"
+									value="${resourceDto.resourceValue!}">
 	                         </div>
 	                         <div class="form-group">
 	                             <label class="control-label">资源代码</label>
-	                             <input type="text" name="resourceKey" placeholder="请输入资源代码" class="form-control" value="${resourceDto.resourceKey!}">
+	                             <input type="text" name="resourceKey"
+									placeholder="请输入资源代码" class="form-control"
+									value="${resourceDto.resourceKey!}">
 	                         </div>
 	                         <div class="form-group">
 	                             <label class="control-label">资源类型</label>
 	                             <select class="form-control" name="type">
 	                             	 <option value="">全部</option>
-                                     <option value="1" <#if (resourceDto.type)??&&resourceDto.type == 1>selected</#if>>菜单</option>
+                                     <option value="1"<#if (resourceDto.type)??&&resourceDto.type == 1>selected</#if>>菜单</option>
                                      <option value="2" <#if (resourceDto.type)??&&resourceDto.type == 2>selected</#if>>功能</option>
                                  </select>
 	                         </div>
@@ -80,7 +89,7 @@
 											<#if resource.available><span class="label label-info">有效</span><#else><span class="label label-warning">无效</span></#if>
 										</td>
 										<td>
-											<a  href="javascript:void(0)" class="btn btn-info" onclick="">修改</a>
+											<a  href="javascript:void(0)" class="btn btn-danger" onclick="deleteResource('${resource.id!}')">删除</a>
 										</td>
 									</tr>
 								</#list>
@@ -115,57 +124,122 @@
                 <h5 class="modal-title">新增资源</h5>
             </div>
             <div class="modal-body">
-	           <form class="form-horizontal m-t" id="moduleForm">
+	           <form class="form-horizontal m-t" id="resourceForm">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">模块名称：<span id="moduleNameError"></span></label>
+                        <label class="col-sm-3 control-label">资源名称：<span id="resourceValueError"></span></label>
                         <div class="col-sm-8">
-                            <input id="moduleName" name="moduleName" class="form-control" type="text"
-                            	 placeholder="请输入模块名称" data-parsley-required="true"
-								 data-parsley-required-message="模块名称不可为空"
+                            <input id="resourceValue" name="resourceValue" class="form-control" type="text"
+                            	 placeholder="请输入资源名称" 
+                            	 data-parsley-required="true"
+								 data-parsley-required-message="资源名称不可为空"
 								 data-parsley-maxlength="50"
-								 data-parsley-maxlength-message="模块名称不能超过50"
-								 data-parsley-errors-container="#moduleNameError"
+								 data-parsley-maxlength-message="资源名称不能超过50"
+								 data-parsley-errors-container="#resourceValueError"
                             >
                            <!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请输入姓名</span> -->
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">模块icon：<span id="iconError"></span></label>
+                        <label class="col-sm-3 control-label">资源代码：<span id="resourceKeyError"></span></label>
                         <div class="col-sm-8">
-                            <input  name="icon" class="form-control" type="text"
-                             	placeholder="请输入模块icon" data-parsley-required="true"
-								 data-parsley-required-message="模块icon不可为空"
+                            <input id="resourceKey" name="resourceKey" class="form-control" type="text"
+                             	 placeholder="请输入资源代码"
 								 data-parsley-maxlength="50"
-								 data-parsley-maxlength-message="模块icon不能超过50" 
-								 data-parsley-errors-container="#iconError"
+								 data-parsley-maxlength-message="资源代码不能超过50" 
+								 data-parsley-errors-container="#resourceKeyError"
 							>
 							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">排序：<span id="orderByError"></span></label>
+                        <label class="col-sm-3 control-label">资源URL：<span id="urlError"></span></label>
                         <div class="col-sm-8">
-                            <input  name="orderBy" class="form-control" type="text"
-                             	 placeholder="请输入模块排序" data-parsley-required="true"
-								 data-parsley-required-message="模块排序不可为空"
+                            <input id="url" name="url" class="form-control" type="text"
+                             	 placeholder="请输入资源URL" 
 								 data-parsley-maxlength="50"
-								 data-parsley-maxlength-message="模块排序不能超过50" 
-								 data-parsley-errors-container="#orderByError"
+								 data-parsley-maxlength-message="资源URL不能超过50" 
+								 data-parsley-errors-container="#urlError"
 							>
 							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
                         </div>
                     </div>
                      <div class="form-group">
-                        <label class="col-sm-3 control-label">模块描述：<span id="descriptionError"></span></label>
+                        <label class="col-sm-3 control-label">资源Icon：<span id="menuIconError"></span></label>
                         <div class="col-sm-8">
-                        <textarea class="form-control"
-								  name="description" rows="5"
-								  placeholder="输入部门描述"
-								  data-parsley-maxlength="1000"
-								  data-parsley-maxlength-message="部门描述不能超过1000字"
-								  data-parsley-required="true"
-								  data-parsley-required-message="部门描述不可为空"></textarea>
-							<!-- description -->
+	                        <input id="menuIcon" name="menuIcon" class="form-control" type="text"
+	                             	 placeholder="请输入资源Icon" 
+									 data-parsley-maxlength="50"
+									 data-parsley-maxlength-message="资源Icon不能超过50" 
+									 data-parsley-errors-container="#menuIconError"
+								>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">资源排序：<span id="orderByError"></span></label>
+                        <div class="col-sm-8">
+	                        <input id="orderBy" name="orderBy" class="form-control" type="text"
+	                             	 placeholder="请输入排序" 
+	                             	 data-parsley-required="true"
+									 data-parsley-maxlength="50"
+									 data-parsley-maxlength-message="排序" 
+									 data-parsley-errors-container="#orderByError"
+								>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">资源类型：<span id="typeError"></span></label>
+                        <div class="col-sm-8">
+             				<select class="form-control" name="type" data-parsley-required="true" data-parsley-required-message="资源类型不可为空" data-parsley-errors-container="#typeError">
+                   	 			<option value="">请选择资源类型</option>
+                          		<option value="1" >菜单</option>
+                          		<option value="2" >功能</option>
+                     	    </select>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">资源级别：<span id="levelError"></span></label>
+                        <div class="col-sm-8">
+             				<select class="form-control" name="level" data-parsley-required="true" data-parsley-required-message="资源级别不可为空" data-parsley-errors-container="#levelError" >
+                   	 			<option value="">请选择资源级别</option>
+                          		<option value="0" >一级（菜单）</option>
+                          		<option value="1" >二级（菜单）</option>
+                          		<option value="2" >三级（菜单）</option>
+                          		<option value="3" >四级（功能）</option>
+                     	    </select>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">上级资源：<span id="parentIdError"></span></label>
+                        <div class="col-sm-8">
+             				<select class="form-control" name="parentId" data-parsley-required="true" data-parsley-required-message="资源级别不可为空" data-parsley-errors-container="#parentIdError"  >
+                   	 			<option value="">请选择资源级别</option>
+                   	 			<option value="0">默认</option>
+                   	 			<#if (resources)?? && (resources)?size gt 0>
+                             		<#list resources as resource>
+                             	 		<#if resource.level lt 3 >
+                             	 			<option value="${resource.id!}" >${resource.resourceValue!}</option>
+                             	 		</#if>
+                             	 	</#list>
+                             	</#if>
+                     	    </select>
+							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">系统模块：<span id="moduleIdError"></span></label>
+                        <div class="col-sm-8">
+             				<select class="form-control" name="moduleId" data-parsley-required="true" data-parsley-required-message="系统模块不可为空" data-parsley-errors-container="#moduleIdError"  >
+                   	 			<option value="">请选择系统模块</option>
+                   	 			<#if (modules)?? && (modules)?size gt 0>
+                             	 	<#list modules as module>
+                             	 		<option value="${module.moduleId}" >${module.moduleName!}</option>
+                             		</#list>
+                             	</#if>
+                     	    </select>
 							<!--  <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 账户用于登录</span> -->
                         </div>
                     </div>
@@ -182,28 +256,61 @@
 </@frame.frame> 
 <@frame.script>
 <script>
-function submitFm(){
-	if($('#moduleForm').parsley().validate()){
+	function submitFm() {
+		if ($('#resourceForm').parsley().validate()) {
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : "${basePath}/resource/add",
+				data : $('#resourceForm').serialize(),
+				async : true,
+				error : function(request) {
+					parent.layer.alert("服务器异常！");
+				},
+				success : function(data) {
+					if (data.success) {
+						parent.layer.alert('保存成功！', {
+							icon : 1,
+							skin : 'layer-ext-moon'
+						},function(e){
+							parent.layer.close(e);
+							window.location.href = window.location.href;
+						});
+					} else {
+						parent.layer.alert('保存失败！');
+					}
+				}
+			});
+		}
+	}
+
+	function deleteResource(id) {
+		var postdata = {
+			id : id
+		}
 		$.ajax({
-			cache: true,
-			type: "POST",
-			url:"${basePath}/module/add",
-			data:$('#moduleForm').serialize(),
-			async: true,
-			error: function(request) {
+			cache : true,
+			type : "POST",
+			url : "${basePath}/resource/delete",
+			data : postdata,
+			async : true,
+			error : function(request) {
 				parent.layer.alert("服务器异常！");
 			},
-			success: function(data) {
-				if(data.success){
-					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
-					window.location.href=window.location.href;
-				} else{
-					parent.layer.alert('保存失败！');
+			success : function(data) {
+				if (data.success) {
+					parent.layer.alert('删除成功！', {
+						icon : 1,
+						skin : 'layer-ext-moon'
+					},function(e){
+						parent.layer.close(e);
+						window.location.href = window.location.href;
+					});
+				} else {
+					parent.layer.alert('删除失败！');
 				}
 			}
 		});
-	///	$('#closeModal').click();
 	}
-} 
 </script>
 </@frame.script>

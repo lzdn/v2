@@ -1,5 +1,6 @@
 package com.xuexi.v2.mapper;
 
+import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.Page;
@@ -21,4 +22,7 @@ public interface ResourceMapper {
 	
 	Page<Resource> findPage(Map<String,Object> map);
 
+	List<Resource> findAll();
+	
+	int deleteByResourceId(Integer resourceId);
 }

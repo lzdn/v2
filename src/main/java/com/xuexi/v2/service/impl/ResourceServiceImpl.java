@@ -1,11 +1,13 @@
 package com.xuexi.v2.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +21,26 @@ public class ResourceServiceImpl implements IResourceService {
 
 	@Autowired
 	private ResourceMapper resourceMapper;
+
+	@Override
+	public List<Resource> findAll() {
+		return resourceMapper.findAll();
+	}
+
+	@Override
+	@Transactional(value = "myTransactionManager")
+	public int delete(Integer id) {
+		resourceMapper.deleteByResourceId(id);
+		resourceMapper.deleteByPrimaryKey(id);
+		return 1;
+	}
+
+	@Override
+	@Transactional(value = "myTransactionManager")
+	public int add(ResourceDto resourceDto) {
+		resourceDto.setAvailable(true);
+		return resourceMapper.insertSelective(resourceDto);
+	}
 
 	@Override
 	public Page<Resource> findSplitPage(ResourceDto resourceDto) {
