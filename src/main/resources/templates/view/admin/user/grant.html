@@ -1,0 +1,70 @@
+<#global basePath=springMacroRequestContext.contextPath> 
+<#global version="1.0.0">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit">
+<title></title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="shortcut icon" href="${basePath}/static/favicon.ico">
+<link href="${basePath}/static/css/bootstrap.min.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/font-awesome.min.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/animate.css" rel="stylesheet">
+<link href="${basePath}/static/css/style.css?v=${version}" rel="stylesheet">
+<link href="${basePath}/static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content  animated fadeInRight">
+		<form id="userRoleFm">
+			<#if (roles)??&&roles?size gt 0>
+				<#list roles as role >
+					<div class="radio radio-danger">
+                        <input type="radio" name="roleId" id="${role.roleId!}" value="${role.roleId!}" 
+                        <#if (user.role)??&&user.role.roleId==role.roleId>checked</#if>
+                        >
+                        <label for="${role.roleId}">
+                           	 ${role.roleName!}
+                        </label>
+                    </div>
+				</#list>
+			</#if>
+			<input type="hidden" name="userId" value="${user.userId!}" />
+			<div class="text-center">
+				<button type="button" class="btn btn-primary" onclick="submitFm()">保存</button>
+				<button type="button" class="btn btn-white" onclick="parent.layer.closeAll()">取消</button>
+			</div>
+		</form>
+	</div>
+<!-- 全局js -->
+<script src="${basePath}/static/js/jquery.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/bootstrap.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/plugins/iCheck/icheck.min.js?v=${version}"></script>
+<script src="${basePath}/static/js/plugins/layer/layer.min.js?v=${version}"></script>
+<script>
+function submitFm(){
+	$.ajax({
+		cache: true,
+		type: "POST",
+		url:"${basePath}/user/addRole",
+		data:$('#userRoleFm').serialize(),
+		async: true,
+		error: function(request) {
+			parent.layer.alert("服务器异常！");
+		},
+		success: function(data) {
+			if(data.success){
+				parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'},function(e){
+					parent.layer.closeAll();
+				});
+			} else{
+				parent.layer.alert('保存失败！');
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>
