@@ -18,7 +18,7 @@
 </head>
 <body class="gray-bg">
 	<div class="wrapper wrapper-content  animated fadeInRight">
-	<form action="">
+	<form id="grantFM">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="ibox ">
@@ -29,11 +29,12 @@
 						<p class="m-b-lg">
 							<div class="alert alert-warning">资源分配请谨慎操作！</div>
 						</p>
-						<div class="dd" id="nestable2">
-							<ol class="dd-list">
-								<li class="dd-item" data-id="1">
-									<#if (modules)??&&modules?size gt 0>
-										<#list modules as module>
+						<input type="hidden" name="roleId" value="${roleId!}">
+						<#if (modules)??&&modules?size gt 0>
+							<#list modules as module>			
+								<div class="dd">
+									<ol class="dd-list">
+										<li class="dd-item" data-id="1">
 											<div class="dd-handle">
 												<span class="label label-info"><#if (module.icon)??><i class="${module.icon!}"></i></#if></span>
 												${module.moduleName!} 
@@ -41,22 +42,62 @@
 											<#if (module.resources)?? && (module.resources)?size gt 0>
 												<ol class="dd-list">
 													<#list module.resources as resource>
+														<#assign isCheck = 0>
+														<#if (resource.isCheck)??>
+															<#assign isCheck = 1>
+														</#if> 
 														<li class="dd-item">
 															<div class="dd-handle">
-																<span class="label label-info">
-																	<#if (resource.menuIcon)??><i class="${resource.menuIcon!}"></i></#if>
-																</span>
-																${resource.resourceValue!}
+																<div class="checkbox checkbox-inline">
+																	<input type="checkbox" id="for${resource.id!}" value="${resource.id!}" name="resourceId"
+																	 	onclick="onlyEntrance(this,'${resource.id!}')"
+																	 	<#if isCheck == 1>checked</#if> 
+																	>
+							                                        <label for="for${resource.id!}">
+								                                      	<span class="label label-success">
+																			<#if (resource.menuIcon)??><i class="${resource.menuIcon!}"></i></#if>
+																		</span>
+								                                        ${resource.resourceValue!}
+							                                        </label>
+							                                    </div>
+							                                    <span class="pull-right">
+							                                    	<span class="label label-info"><#if resource.type == 1>菜单<#elseif resource.type == 2>功能</#if></span>
+							                                    	<span class="label label-info">${resource.url!}</span>
+							                                    	<span class="label label-info">${resource.resourceKey!}</span>
+							                                    	<span class="label label-info"><#if resource.available >可用<#else>不可用</#if></span>
+							                                    </span>
 															</div>
 															<#if (resource.children)?? && (resource.children)?size gt 0>
-																<ol class="dd-list">
+																<ol class="dd-list" id="childs${resource.id!}">
 																	<#list resource.children as childrena>
+																		<#assign subIsCheck = 0>
+																	    <#if isCheck == 1>
+											                                <#if (childrena.isCheck)??>
+																				<#assign subIsCheck = 1>
+																			<#else>
+																				<#assign subIsCheck = 0>	
+																			</#if>  
+								                                        <#else>
+								                                        	<#assign subIsCheck = 2>
+								                                        </#if>
 																		<li class="dd-item">
 																			<div class="dd-handle">
 																				<div class="checkbox checkbox-inline">
-											                                        <input type="checkbox" id="for${childrena.id!}" value="${childrena.id!}">
+											                                        <input type="checkbox" id="for${childrena.id!}" value="${childrena.id!}" name="resourceId"
+											                                        <#if subIsCheck == 1>
+											                                        	checked
+											                                        <#elseif subIsCheck == 2>
+											                                        	disabled
+											                                        </#if>
+											                                        >
 											                                        <label for="for${childrena.id!}">${childrena.resourceValue!}</label>
 											                                    </div>
+											                                    <span class="pull-right">
+											                                    	<span class="label label-info"><#if childrena.type == 1>菜单<#elseif childrena.type == 2>功能</#if></span>
+											                                    	<span class="label label-info">${childrena.url!}</span>
+											                                    	<span class="label label-info">${childrena.resourceKey!}</span>
+											                                    	<span class="label label-info"><#if childrena.available >可用<#else>不可用</#if></span>
+											                                    </span>
 																			</div>
 																			<#if (childrena.children)?? && (childrena.children)?size gt 0>
 																				<ol class="dd-list" id="sub${childrena.id!}">
@@ -64,9 +105,23 @@
 																						<li class="dd-item">
 																							<div class="dd-handle">
 															                                    <div class="checkbox checkbox-inline">
-															                                        <input type="checkbox" id="for${childrenb.id!}" value="${childrenb.id!}">
+															                                        <input type="checkbox" id="for${childrenb.id!}" value="${childrenb.id!}" name="resourceId"
+															                                        <#if subIsCheck == 1>
+															                                        	<#if (childrenb.isCheck)??>
+																											checked
+																										</#if> 
+															                                        <#elseif subIsCheck == 2>
+															                                        	disabled
+															                                        </#if>
+															                                        >
 															                                        <label for="for${childrenb.id!}">${childrenb.resourceValue!}</label>
 															                                    </div>
+															                                    <span class="pull-right">
+															                                    	<span class="label label-info"><#if childrenb.type == 1>菜单<#elseif childrenb.type == 2>功能</#if></span>
+															                                    	<span class="label label-info">${childrenb.url!}</span>
+															                                    	<span class="label label-info">${childrenb.resourceKey!}</span>
+															                                    	<span class="label label-info"><#if childrenb.available >可用<#else>不可用</#if></span>
+															                                    </span>
 																							</div>
 																						</li>
 																					</#list>
@@ -80,18 +135,18 @@
 													</#list>
 												</ol>
 											</#if>
-										</#list>	
-									</#if>
-								</li>
-							</ol>
-						</div>
+										</li>
+									</ol>
+								</div>
+							</#list>	
+						</#if>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-12">
 				<div class="text-center">
 					<button type="button" class="btn btn-primary" onclick="submitFm()">授权</button>
-					<button type="button" class="btn btn-primary" onclick="parent.layer.closeAll()">取消</button>
+					<button type="button" class="btn btn-white" onclick="parent.layer.closeAll()">取消</button>
 				</div>
 			</div>
 		</div>
@@ -103,13 +158,46 @@
 <script src="${basePath}/static/js/plugins/iCheck/icheck.min.js?v=${version}"></script>
 <script src="${basePath}/static/js/plugins/nestable/jquery.nestable.min.js?v=${version}"></script>
 <script src="${basePath}/static/js/plugins/layer/layer.min.js?v=${version}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#nestable2').nestable({group: 1}).on('change', function(e){});
-        });
-        function submitFm(){
-        	parent.layer.closeAll();
-        }
-    </script>
+<script>
+    $(document).ready(function () {
+        $('div .dd').nestable({group: 1}).on('change', function(e){});
+    });
+    function submitFm(){
+    	//$('#childs'+id).find('input[name=resourceId]')
+    	//var bol = $("input[type=checkbox][name='immigrant_1']:checked").length < 3;
+    	$.ajax({
+			cache: true,
+			type: "POST",
+			url:"${basePath}/role/grant",
+			data:$('#grantFM').serialize(),
+			async: true,
+			error: function(request) {
+				parent.layer.alert("服务器异常！");
+			},
+			success: function(data) {
+				if(data.success){
+					parent.layer.alert('授权成功！', {icon: 1, skin: 'layer-ext-moon'},function(e){
+						parent.layer.closeAll();
+					});
+					
+				} else{
+					parent.layer.alert('授权失败！');
+				}
+			}
+		});
+    }
+    function onlyEntrance(obj,id){
+    	var chek = $(obj).is(':checked');
+    	var childs = $('#childs'+id).find('input[type=checkbox]');
+    	 $.each(childs,function(){
+    		 $(this).prop("checked",false);
+    		 if(!chek){
+    			 $(this).prop("disabled",true);
+    		 }else{
+    			 $(this).prop("disabled",false);
+    		 }
+ 		});
+    }
+</script>
 </body>
 </html>

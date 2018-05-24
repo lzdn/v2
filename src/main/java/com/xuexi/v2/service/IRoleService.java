@@ -15,5 +15,7 @@ public interface IRoleService {
 	List<Role> findRoleResource(Integer userId);
 
 	Page<Role> findSplitPage(RoleDto roleDto);
+	
+	void grant(Integer[] resouresId,Integer roleId);
 
 }

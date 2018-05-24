@@ -174,18 +174,30 @@
       order_by = #{orderBy,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-   
-   <select id="findUserResources" parameterType="Map" resultMap="BaseResultMap">
-		SELECT 
-			t.id,t.resource_key,t.resource_value,t.url,t.menu_icon,t.module_id,t.type,t.available  
-			from t_resource t 
-			LEFT JOIN t_role_resource_relation t1 on t1.resource_id = t.id
-			LEFT JOIN t_role t2 on t2.role_id = t1.role_id
-			LEFT JOIN t_user_role_relation t3 on t3.role_id = t2.role_id 
-		where 1=1 
-			and t.parent_id = #{parentId}   
-			and t3.user_id = #{userId}
-		order by t.id 
+  
+  <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+    	select 
+		t.id, t.resource_key, t.resource_value, t.url,t.parent_id,t.module_id, t.level, t.available, 
+    	t.type, t.menu_icon, t.order_by
+		from t_resource t  
+    	<where>
+			<if test="id != null">
+				and t.id = #{id}
+			</if>
+			<if test="resourceValue != null">
+				and t.resource_value like CONCAT('%', #{resourceValue}, '%')
+			</if>
+			<if test="resourceKey != null">
+				and t.resource_key  = #{resourceKey}
+			</if>
+			<if test="moduleId != null">
+				and t.module_id  = #{moduleId}
+			</if>
+			<if test="type != null">
+				and t.type  = #{type}
+			</if>
+		</where>
+		ORDER BY t.order_by
   </select>
  
 </mapper>

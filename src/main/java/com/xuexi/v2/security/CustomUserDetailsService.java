@@ -60,11 +60,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 		while (it.hasNext()) {
 			Resource resource = it.next();
 			if(resource==null)continue;
-			if(resource.getIsCheck() == null) {
-				it.remove();
-			}else if(!CollectionUtils.isEmpty(resource.getChildren())){
-				check(resource.getChildren());
-			}
+			if(resource.getType()!=1) {it.remove();continue;}
+			if(resource.getIsCheck() == null) {it.remove();} 
+			if(!CollectionUtils.isEmpty(resource.getChildren())){check(resource.getChildren());}
 		}
 	}
 }

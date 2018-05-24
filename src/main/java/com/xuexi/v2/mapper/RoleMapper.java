@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Role;
+import com.xuexi.v2.domain.dto.GrantDto;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer roleId);
@@ -22,6 +23,10 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
     
     Page<Role> findPage(Map<String,Object> map);
+    
+    int deleteRightRoleId(@Param("roleId") Integer roleId);
+    
+    int insertRightBatch(List<GrantDto> grants);
     
     List<Role> findRoleResource(@Param("userId") Integer userId);
     

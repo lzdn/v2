@@ -1,24 +1,24 @@
 package com.xuexi.v2.mapper;
 
-import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
+import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.Resource;
 
 public interface ResourceMapper {
-    int deleteByPrimaryKey(Integer id);
+	
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(Resource record);
+	int insert(Resource record);
 
-    int insertSelective(Resource record);
+	int insertSelective(Resource record);
 
-    Resource selectByPrimaryKey(Integer id);
+	Resource selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Resource record);
+	int updateByPrimaryKeySelective(Resource record);
 
-    int updateByPrimaryKey(Resource record);
-    
-    List<Resource> findUserResources(@Param("userId") Integer userId,@Param("parentId") Integer parentId);
-    
+	int updateByPrimaryKey(Resource record);
+	
+	Page<Resource> findPage(Map<String,Object> map);
+
 }

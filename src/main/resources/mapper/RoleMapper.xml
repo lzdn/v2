@@ -117,4 +117,16 @@
 	</where>
 	ORDER BY t.role_id
   </select>
+  
+  <delete id="deleteRightRoleId" parameterType="Map">
+	delete from t_role_resource_relation where role_id = #{roleId,jdbcType=INTEGER}
+ </delete>
+ 
+ <insert id="insertRightBatch" parameterType="java.util.List">
+	insert into t_role_resource_relation (role_id, resource_id) values
+	<foreach collection="list" item="item" index="index" separator=",">
+		(#{item.roleId,jdbcType=INTEGER}, #{item.resourceId,jdbcType=INTEGER})
+	</foreach>
+</insert>
+  
 </mapper>

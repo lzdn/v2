@@ -59,7 +59,18 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/grant/{roleId}", method = RequestMethod.GET)
 	public String allot(HttpServletResponse response, Model model, @PathVariable("roleId") Integer roleId) {
 		List<Module> modules = moduleService.findModuleRoleResource(roleId);
+		model.addAttribute("roleId", roleId);
 		model.addAttribute("modules", modules);
 		return "admin/role/grant";
+	}
+	
+	@RequestMapping(value = "/grant", method = RequestMethod.POST)
+	public @ResponseBody Map<String, Object> grant(HttpServletResponse response, Integer[] resourceId,Integer roleId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(roleId!=null) {
+			roleService.grant(resourceId, roleId);
+		}
+		map.put("success", true);
+		return map;
 	}
 }
