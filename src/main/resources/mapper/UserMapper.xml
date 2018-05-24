@@ -213,11 +213,14 @@
     select <include refid="Base_Column_List" />  from t_user  where account = #{account,jdbcType=VARCHAR}
   </select>
   
-   <select id="findPage" parameterType="Map" resultMap="BaseResultMap">
+  <select id="findPage" parameterType="Map" resultMap="UserRoleResult">
     	select 
+    	t2.role_id, t2.role_name,
 		t.user_id, t.dept_id, t.avatar, t.account, t.password, t.salt, t.username, t.birthday, t.sex, t.email, 
     	t.phone, t.status, t.create_time, t.login_time, t.last_login_time
-		from t_user t  
+		from t_user t
+		left join t_user_role_relation t1 on t1.user_id = t.user_id 
+		left join t_role t2 on t2.role_id = t1.role_id   
     	<where>
 			<if test="userId != null">
 				and t.user_id = #{userId}
@@ -231,4 +234,31 @@
 		</where>
 		ORDER BY t.user_id
   </select>
+  
+  <resultMap id="UserRoleResult" type="com.xuexi.v2.domain.User" extends="BaseResultMap">
+		<association property="role" javaType="com.xuexi.v2.domain.Role">
+			<id column="role_id" jdbcType="INTEGER" property="roleId" />
+		    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+		</association>
+  </resultMap>
+  
+  <select id="selectUserRoleByPk" parameterType="Map" resultMap="UserRoleResult">
+    	select 
+    	t2.role_id, t2.role_name,
+		t.user_id, t.dept_id, t.avatar, t.account, t.password, t.salt, t.username, t.birthday, t.sex, t.email, 
+    	t.phone, t.status, t.create_time, t.login_time, t.last_login_time
+		from t_user t 
+		left join t_user_role_relation t1 on t1.user_id = t.user_id 
+		left join t_role t2 on t2.role_id = t1.role_id 
+    	where 1=1 and t.user_id = #{userId}
+		ORDER BY t.user_id
+  </select>
+  
+ <delete id="deleteUserRole" parameterType="Map">
+	delete from t_user_role_relation where user_id = #{userId,jdbcType=INTEGER}
+ </delete>
+  
+  <insert id="addUserRole" parameterType="Map">
+    insert into t_user_role_relation (user_id, role_id) values (#{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER})
+  </insert>
 </mapper>

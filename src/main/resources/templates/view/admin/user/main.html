@@ -52,15 +52,11 @@
 										<td>${user.sex!}</td>
 										<td><#if (user.birthday)??>${user.birthday?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
 										<td>
-											<#if (user.roles)?? && (user.roles)?size gt 0>
-												<#list user.roles as role>
-													${role.roleName!}
-												</#list>
-											</#if>
+											<#if (user.role)??>${user.role.roleName!}</#if>
 										</td>
 										<td><#if (user.createTime)??>${user.createTime?string("yyyy-MM-dd HH:mm:ss")}</#if></td>
 										<td>
-											<a href="#roleModal" data-toggle="modal" class="btn btn-primary" onclick="doRole('${user.userId!}','${user.username!}')">分配角色</a>
+											<a href="#"  class="btn btn-primary" onclick="doRight('${user.userId!}','${user.username!}')">分配角色</a>
 										</td>
 									</tr>
 								</#list>
@@ -218,6 +214,23 @@
 <@frame.script>
 <script src="${basePath}/static/js/plugins/upload/fileinput.js"></script>
 <script>
+
+function doRight(id,name){
+	var path = "${basePath}/user/grant/"+id;
+	parent.layer.open({
+	    type: 2,
+	    title: '【'+name+'】分配角色',
+	    shadeClose: true,
+	    shade: 0.8,
+	    maxmin: true, //开启最大化最小化按钮
+	    area: ['400px', '35%'],
+	    content: path, //iframe的url
+	   // closeBtn: true,
+	    cancel: function(index){
+	     // alert(index)
+	    }
+	});
+}
 
 //分配角色
 function doRole(uid,name){

@@ -66,6 +66,7 @@ locations=["资源管理","资源列表"]>
 								<th>资源图标</th>
 								<th>资源URL</th>
 								<th>资源类型</th>
+								<th>资源级别</th>
 								<th>状态</th>
 								<th>#</th>
 							</tr>
@@ -86,6 +87,12 @@ locations=["资源管理","资源列表"]>
 											<#if resource.type == 2><span class="label label-primary">功能</span></#if>
 										</td>
 										<td>
+											<#if resource.level == 0><span class="label label-primary">一级菜单</span></#if>
+											<#if resource.level == 1><span class="label label-primary">二级菜单</span></#if>
+											<#if resource.level == 2><span class="label label-primary">三级菜单</span></#if>
+											<#if resource.level == 3><span class="label label-primary">四级功能</span></#if>
+										</td>
+										<td>
 											<#if resource.available><span class="label label-info">有效</span><#else><span class="label label-warning">无效</span></#if>
 										</td>
 										<td>
@@ -95,7 +102,7 @@ locations=["资源管理","资源列表"]>
 								</#list>
 							<#else>
 								<tr>
-									<td colspan="8" align="center">
+									<td colspan="9" align="center">
 										没有数据
 									</td>
 								</tr>
@@ -104,7 +111,7 @@ locations=["资源管理","资源列表"]>
 						<#if (resourceSplitPages)?? && (resourceSplitPages.list)?size gt 0>
 							<tfoot>
 								<tr>
-									<td colspan="8" >
+									<td colspan="9" >
 										<@splitPage.splitPage pageCount=resourceSplitPages.pages pageNo=resourceSplitPages.pageNum formId="searchForm" recordCount=resourceSplitPages.total />
 									</td>
 								</tr>

@@ -3,12 +3,13 @@
 <mapper namespace="com.xuexi.v2.mapper.RoleMapper">
   <resultMap id="BaseResultMap" type="com.xuexi.v2.domain.Role">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_key" jdbcType="VARCHAR" property="roleKey" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    role_id, role_name, description, status
+    role_id,role_key, role_name, description, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,9 +22,9 @@
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.xuexi.v2.domain.Role">
-    insert into t_role (role_id, role_name, description, 
+    insert into t_role (role_id,role_key, role_name, description, 
       status)
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+    values (#{roleId,jdbcType=INTEGER}, #{roleKey,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xuexi.v2.domain.Role">
@@ -31,6 +32,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
         role_id,
+      </if>
+      <if test="roleKey != null">
+        role_key,
       </if>
       <if test="roleName != null">
         role_name,
@@ -46,6 +50,9 @@
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
+       <if test="roleKey != null">
+        #{roleKey,jdbcType=VARCHAR},
+      </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
       </if>
@@ -60,6 +67,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.xuexi.v2.domain.Role">
     update t_role
     <set>
+       <if test="roleKey != null">
+        role_key = #{roleKey,jdbcType=VARCHAR},
+      </if>
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
@@ -74,7 +84,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xuexi.v2.domain.Role">
     update t_role
-    set role_name = #{roleName,jdbcType=VARCHAR},
+    set role_key = #{roleKey,jdbcType=VARCHAR},
+    role_name = #{roleName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where role_id = #{roleId,jdbcType=INTEGER}
@@ -92,7 +103,7 @@
   </resultMap>
   <select id="findRoleResource" parameterType="Map" resultMap="RoleResourceResult">
    	SELECT 
-   	 	t2.role_id, t2.role_name, t2.description,t2.status,
+   	 	t2.role_id,t2.role_key,t2.role_name, t2.description,t2.status,
 		t.id,t.resource_key,t.resource_value,t.url,t.menu_icon,t.module_id,t.type,t.available  
 		from t_resource t
 		LEFT JOIN t_role_resource_relation t1 on t1.resource_id = t.id

@@ -27,9 +27,22 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
+	public User selectUserRoleByPk(Integer userId) {
+		return userMapper.selectUserRoleByPk(userId);
+	}
+
+	@Override
 	@Transactional(value = "myTransactionManager")
 	public int register(User user) {
 		return userMapper.insertSelective(user);
+	}
+
+	@Override
+	@Transactional(value = "myTransactionManager")
+	public int addUserRole(Integer userId, Integer roleId) {
+		userMapper.deleteUserRole(userId);
+		userMapper.addUserRole(userId, roleId);
+		return 1;
 	}
 
 	@Override

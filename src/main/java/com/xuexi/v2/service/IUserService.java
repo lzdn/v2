@@ -6,9 +6,13 @@ import com.xuexi.v2.domain.dto.UserDto;
 
 public interface IUserService {
 
-	User findByAccount(String account);
-
 	int register(User user);
+	
+	int addUserRole(Integer userId,Integer roleId);
+
+	User selectUserRoleByPk(Integer userId);
+
+	User findByAccount(String account);
 
 	Page<User> findSplitPage(UserDto userDto);
 }

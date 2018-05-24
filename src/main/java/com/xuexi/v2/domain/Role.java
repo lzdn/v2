@@ -5,6 +5,8 @@ import java.util.List;
 public class Role {
 	private Integer roleId;
 
+	private String roleKey;
+
 	private String roleName;
 
 	private String description;
@@ -21,6 +23,14 @@ public class Role {
 
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
+	}
+
+	public String getRoleKey() {
+		return roleKey;
+	}
+
+	public void setRoleKey(String roleKey) {
+		this.roleKey = roleKey;
 	}
 
 	public String getRoleName() {

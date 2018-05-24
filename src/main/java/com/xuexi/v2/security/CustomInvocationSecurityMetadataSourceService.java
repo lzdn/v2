@@ -55,14 +55,15 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 							/*
 							 * 判断资源文件和权限的对应关系，如果已经存在相关的资源url，则要通过该url为key提取出权限集合，将权限增加到权限集合中。
 							 */
-							if (resourceMap.containsKey(resource.getUrl())) {
-								Collection<ConfigAttribute> value = resourceMap.get(resource.getUrl());
+							String key = role.getRoleKey()+"::"+resource.getUrl();
+							if (resourceMap.containsKey(key)) {
+								Collection<ConfigAttribute> value = resourceMap.get(key);
 								value.add(ca);
-								resourceMap.put(resource.getUrl(), value);
+								resourceMap.put(key, value);
 							} else {
 								Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
 								atts.add(ca);
-								resourceMap.put(resource.getUrl(), atts);
+								resourceMap.put(key, atts);
 							}
 						}
 					}
@@ -80,6 +81,7 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		// object 是一个URL，被用户请求的url。
+		Collection<ConfigAttribute> atts = new ArrayList<ConfigAttribute>();
 		FilterInvocation filterInvocation = (FilterInvocation) object;
 		if (resourceMap == null) {
 			loadResourceDefine();
@@ -87,12 +89,14 @@ public class CustomInvocationSecurityMetadataSourceService implements FilterInvo
 		Iterator<String> ite = resourceMap.keySet().iterator();
 		while (ite.hasNext()) {
 			String resURL = ite.next();
-			RequestMatcher requestMatcher = new AntPathRequestMatcher(resURL);
+			String matcher_url = resURL.split("::")[1];
+			RequestMatcher requestMatcher = new AntPathRequestMatcher(matcher_url);
 			if (requestMatcher.matches(filterInvocation.getHttpRequest())) {
-				return resourceMap.get(resURL);//如果多个角色拥有同一个权限 好像有个bug
+				atts.addAll(resourceMap.get(resURL));//修复多个角色拥有同一个权限的bug
+				//return resourceMap.get(resURL);//如果多个角色拥有同一个权限 好像有个bug
 			}
 		}
-		return null;
+		return atts;
 		//如果没有在权限表维护的，就直接放行，就不加默认权限了
 		//此处如果返回为空 ，那么com.xuexi.security.CustomAccessDecisionManager.decide 不会被执行， 所以加了默认的权限
 		//return resourceMap.get("default_error");

@@ -8,19 +8,25 @@ import com.github.pagehelper.Page;
 import com.xuexi.v2.domain.User;
 
 public interface UserMapper {
-    int deleteByPrimaryKey(Integer userId);
+	int deleteByPrimaryKey(Integer userId);
 
-    int insert(User record);
+	int insert(User record);
 
-    int insertSelective(User record);
+	int insertSelective(User record);
 
-    User selectByPrimaryKey(Integer userId);
+	User selectByPrimaryKey(Integer userId);
 
-    int updateByPrimaryKeySelective(User record);
+	int updateByPrimaryKeySelective(User record);
 
-    int updateByPrimaryKey(User record);
-    
-    User findByAccount(@Param(value="account") String account);
-    
-    Page<User> findPage(Map<String,Object> map);
+	int updateByPrimaryKey(User record);
+
+	User findByAccount(@Param(value = "account") String account);
+
+	Page<User> findPage(Map<String, Object> map);
+
+	User selectUserRoleByPk(@Param(value = "userId") Integer userId);
+	
+	int addUserRole(@Param(value = "userId") Integer userId,@Param(value = "roleId") Integer roleId);
+	
+	int deleteUserRole(@Param(value = "userId") Integer userId);
 }
