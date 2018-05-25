@@ -18,7 +18,8 @@
 
 //判断当前页面是否在iframe中
 if (top == this) {
-    var gohome = '<div class="gohome"><a class="animated bounceInUp" href="index.html?v=4.0" title="返回首页"><i class="fa fa-home"></i></a></div>';
+	var homePath = global_basePath + "/home";
+    var gohome = '<div class="gohome"><a class="animated bounceInUp" href="'+homePath+'" title="返回首页"><i class="fa fa-home"></i></a></div>';
     $('body').append(gohome);
 }
 

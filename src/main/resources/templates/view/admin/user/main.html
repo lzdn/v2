@@ -281,8 +281,11 @@ function submitFm(){
 			},
 			success: function(data) {
 				if(data.success){
-					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'});
-					window.location.href=window.location.href;
+					parent.layer.alert('保存成功！', {icon: 1, skin: 'layer-ext-moon'},function(e){
+						parent.layer.close(e);
+						window.location.href=window.location.href;	
+					});
+					
 				} else{
 					parent.layer.alert('保存失败！');
 				}

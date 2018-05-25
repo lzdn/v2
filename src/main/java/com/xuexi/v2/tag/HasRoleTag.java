@@ -9,9 +9,9 @@ import com.xuexi.v2.security.SecurityUser;
  */
 public class HasRoleTag extends RoleTag {
 
-	protected boolean showTagBody(String roleName) {
+	protected boolean showTagBody(String roleKey) {
 		SecurityUser user = getSecurityUser();
-		if (user.getRole() != null && roleName.equals(user.getRole().getRoleName()))
+		if (user.getRole() != null && roleKey.equals(user.getRole().getRoleKey()))
 			return true;
 		return false;
 	}
