@@ -42,6 +42,8 @@ public class UserController extends BaseController {
 	@RequestMapping("/add")
 	public @ResponseBody Map<String, Object> add(HttpServletRequest httpRequest, UserDto userDto) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
+		User account = userService.findByAccount(userDto.getAccount());
+		if(account!=null) {map.put("success", false);return map;}
 		userDto.setSalt(MD5Util.SALT);
 		userDto.setPassword(MD5Util.encode(userDto.getPassword()));
 		int i = userService.register(userDto);

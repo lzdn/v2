@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 本地
-Source Server Version : 50716
+Source Server Version : 50718
 Source Host           : localhost:3306
 Source Database       : xuexi
 
 Target Server Type    : MYSQL
-Target Server Version : 50716
+Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2018-05-25 01:17:07
+Date: 2018-05-25 11:35:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -349,7 +349,7 @@ CREATE TABLE `t_role` (
   `description` varchar(255) DEFAULT NULL COMMENT '角色描述',
   `status` int(2) NOT NULL DEFAULT '1' COMMENT '是否有效 1 有效 0 无效',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of t_role
@@ -357,7 +357,7 @@ CREATE TABLE `t_role` (
 INSERT INTO `t_role` VALUES ('1', 'super', '超级管理员', '', '1');
 INSERT INTO `t_role` VALUES ('2', 'admin', '管理员', '', '1');
 INSERT INTO `t_role` VALUES ('3', 'vip', '普通会员', '', '1');
-INSERT INTO `t_role` VALUES ('4', 'gust', '游客', '', '1');
+INSERT INTO `t_role` VALUES ('4', 'guest', '游客', '', '1');
 
 -- ----------------------------
 -- Table structure for t_role_resource_relation
@@ -410,13 +410,12 @@ CREATE TABLE `t_user` (
   `login_time` datetime DEFAULT NULL COMMENT '登录时间',
   `last_login_time` datetime DEFAULT NULL COMMENT '上次登录时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1004 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1009 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('1000', '1', null, 'admin', '42f6bfd8e35a280d7a212cb76ae76280', '&|^286._', '刘德华', null, null, '415656544@qq.com', null, '1', '2017-10-18 17:42:40', null, null);
-INSERT INTO `t_user` VALUES ('1003', null, null, 'zhanglin', '42f6bfd8e35a280d7a212cb76ae76280', '@ad902s^$', '张林', '2018-05-23 00:00:00', '1', null, null, '1', '2018-05-25 00:17:54', null, null);
+INSERT INTO `t_user` VALUES ('1000', null, null, 'admin', '42f6bfd8e35a280d7a212cb76ae76280', '@ad902s^$', '张林', '2018-05-23 00:00:00', '1', null, null, '1', '2018-05-25 00:17:54', null, null);
 
 -- ----------------------------
 -- Table structure for t_user_role_relation

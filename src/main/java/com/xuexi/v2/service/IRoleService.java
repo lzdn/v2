@@ -11,6 +11,8 @@ public interface IRoleService {
 	int add(Role role);
 
 	List<Role> list();
+	
+	Role findRoleByRoleKey(String roleKey);
 
 	List<Role> findRoleResource(Integer userId);
 

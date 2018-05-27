@@ -48,8 +48,6 @@ public abstract class SecureTag implements TemplateDirectiveModel {
 	}
 
 	protected void renderBody(Environment env, TemplateDirectiveBody body) throws IOException, TemplateException {
-		if (body != null) {
-			body.render(env.getOut());
-		}
+		if (body != null) body.render(env.getOut());
 	}
 }

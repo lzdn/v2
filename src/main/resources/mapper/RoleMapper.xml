@@ -125,6 +125,9 @@
 		<if test="roleName != null">
 			and t.role_name like CONCAT('%', #{roleName},'%')
 		</if>
+		<if test="roleKey != null">
+			and t.role_key = #{roleKey,jdbcType=VARCHAR}
+		</if>
 	</where>
 	ORDER BY t.role_id
   </select>
